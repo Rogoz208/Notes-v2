@@ -13,6 +13,5 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root
     }
 }
