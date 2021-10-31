@@ -3,19 +3,22 @@ package com.rogoz208.notesv2.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.databinding.ActivityMainBinding
 import com.rogoz208.notesv2.ui.screens.notes.NotesListFragment
 import com.rogoz208.notesv2.ui.screens.reminders.RemindersFragment
 import com.rogoz208.notesv2.ui.screens.settings.SettingsFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     companion object {
         private const val NOTES_TAG = "NOTES"
         private const val REMINDERS_TAG = "REMINDERS"
         private const val SETTINGS_TAG = "SETTINGS"
     }
+
+    private val binding by viewBinding(ActivityMainBinding::bind)
 
     private val tagToFragmentMap = mapOf(
         NOTES_TAG to NotesListFragment(),
@@ -29,12 +32,8 @@ class MainActivity : AppCompatActivity() {
         R.id.bottom_menu_item_settings_screen to SETTINGS_TAG
     )
 
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
         initBottomNavigation()
