@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notes-v2</string>
+    <string name="app_name">Notes</string>
 
     <!--    Bottom navigation-->
     <string name="notes_bottom_nav">Notes</string>
