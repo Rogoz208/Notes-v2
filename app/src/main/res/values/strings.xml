@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Notes-v2</string>
+
+    <!--    Bottom navigation-->
+    <string name="notes_bottom_nav">Notes</string>
+    <string name="reminders_bottom_nav">Reminders</string>
+    <string name="settings_bottom_nav">Settings</string>
 </resources>
