@@ -4,7 +4,7 @@ import com.rogoz208.notesv2.domain.entities.NoteEntity
 
 interface NotesRepo {
 
-    fun getNotes(): List<NoteEntity>
+    val notes: List<NoteEntity>
 
     fun createNote(note: NoteEntity): String
 

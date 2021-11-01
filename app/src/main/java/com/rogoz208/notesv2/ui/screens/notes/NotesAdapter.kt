@@ -5,16 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 
 class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
-    private var data: List<NoteEntity> = ArrayList()
+    var data: List<NoteEntity> = ArrayList()
+        get() = ArrayList(field)
+
     private var clickListener: OnItemClickListener? = null
-
-    fun setData(data: List<NoteEntity>){
-        this.data = data
-    }
-
-    fun getData(): List<NoteEntity> {
-        return ArrayList(data)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(parent, clickListener!!)

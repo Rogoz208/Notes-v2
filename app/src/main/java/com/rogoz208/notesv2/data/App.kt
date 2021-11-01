@@ -12,7 +12,7 @@ class App : Application() {
         fillRepoByTestValues()
     }
 
-    public fun getNotesRepo(): NotesRepo {
+    fun getNotesRepo(): NotesRepo {
         return notesRepo
     }
 

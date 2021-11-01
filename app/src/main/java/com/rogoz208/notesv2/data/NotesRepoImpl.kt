@@ -8,9 +8,10 @@ import kotlin.collections.ArrayList
 class NotesRepoImpl : NotesRepo {
     private val cache = ArrayList<NoteEntity>()
 
-    override fun getNotes(): List<NoteEntity> {
-        return ArrayList(cache)
-    }
+    override val notes: List<NoteEntity>
+        get() {
+            return ArrayList(cache)
+        }
 
     override fun createNote(note: NoteEntity): String {
         val newId = UUID.randomUUID().toString()
