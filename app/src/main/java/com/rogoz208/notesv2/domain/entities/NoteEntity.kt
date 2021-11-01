@@ -6,9 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class NoteEntity(
-    @Nullable
-    var uid: String,
+    var uid: String?,
     var title: String,
     var detail: String,
-    var creationDate: Long
+    var creationDate: Long?
 ) : Parcelable
