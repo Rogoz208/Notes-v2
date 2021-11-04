@@ -1,6 +1,6 @@
 package com.rogoz208.notesv2.ui.screens.notes.list
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -13,7 +13,7 @@ import com.rogoz208.notesv2.data.App
 import com.rogoz208.notesv2.databinding.FragmentNotesListBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
-import java.lang.IllegalStateException
+import com.rogoz208.notesv2.ui.screens.notes.edit.EditNoteActivity
 
 class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContract.View {
     private val adapter = NotesAdapter()
@@ -22,21 +22,6 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
     private lateinit var app: App
     private lateinit var repo: NotesRepo
     private lateinit var presenter: NotesListContract.Presenter
-
-    private var controller: Controller? = null
-
-    interface Controller {
-        fun openEditNoteScreen(note: NoteEntity?)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        controller = if (context is Controller) {
-            context
-        } else {
-            throw IllegalStateException("Activity must implement NotesListFragment.Controller")
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,11 +81,15 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
     }
 
     override fun openAddNoteScreen() {
-        controller?.openEditNoteScreen(null)
+        val intent = Intent(requireContext(), EditNoteActivity::class.java)
+        startActivity(intent)
     }
 
     override fun openEditNoteScreen(note: NoteEntity) {
-        controller?.openEditNoteScreen(note)
+        val intent = Intent(requireContext(), EditNoteActivity::class.java).apply {
+            putExtra("NOTE", note)
+        }
+        startActivity(intent)
     }
 
     override fun deleteNote(note: NoteEntity) {
