@@ -1,10 +1,9 @@
-package com.rogoz208.notesv2.ui.screens.notes
+package com.rogoz208.notesv2.ui.screens.notes.list
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
@@ -37,7 +36,7 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
         binding.recyclerView.adapter = this.adapter
 
         adapter.data = repo.notes
-        adapter.setOnItemClickListener(object: OnItemClickListener{
+        adapter.setOnItemClickListener(object: OnItemClickListener {
             override fun onItemClick(item: NoteEntity, position: Int) {
                 Toast.makeText(requireContext(), "Click on ${item.title}", Toast.LENGTH_SHORT ).show()
             }

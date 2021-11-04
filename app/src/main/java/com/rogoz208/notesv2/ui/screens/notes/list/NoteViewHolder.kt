@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.ui.screens.notes
+package com.rogoz208.notesv2.ui.screens.notes.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

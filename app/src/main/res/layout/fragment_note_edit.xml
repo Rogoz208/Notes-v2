@@ -4,12 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.screens.notes.list.NotesListFragment">
+    tools:context=".ui.screens.notes.edit.NoteEditFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_note_view_holder" />
+        android:text="@string/hello_blank_fragment" />
 
 </LinearLayout>
