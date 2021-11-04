@@ -7,18 +7,16 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.databinding.ActivityMainBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
-import com.rogoz208.notesv2.ui.screens.notes.edit.NoteEditFragment
 import com.rogoz208.notesv2.ui.screens.notes.list.NotesListFragment
 import com.rogoz208.notesv2.ui.screens.reminders.RemindersFragment
 import com.rogoz208.notesv2.ui.screens.settings.SettingsFragment
 
-class MainActivity : AppCompatActivity(R.layout.activity_main), NotesListFragment.Controller {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     companion object {
         private const val NOTES_TAG = "NOTES"
         private const val REMINDERS_TAG = "REMINDERS"
         private const val SETTINGS_TAG = "SETTINGS"
-        private const val NOTE_EDIT_TAG = "EDIT_NOTE_TAG"
     }
 
     private val binding by viewBinding(ActivityMainBinding::bind)
@@ -27,7 +25,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), NotesListFragmen
         NOTES_TAG to NotesListFragment(),
         REMINDERS_TAG to RemindersFragment(),
         SETTINGS_TAG to SettingsFragment(),
-        NOTE_EDIT_TAG to NoteEditFragment()
     )
 
     private val bottomMenuItemToFragmentTagMap = mapOf(
@@ -62,9 +59,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), NotesListFragmen
         if (savedInstanceState == null) {
             binding.bottomNavigationView.selectedItemId = R.id.bottom_menu_item_notes_screen
         }
-    }
-
-    override fun openEditNoteScreen(note: NoteEntity?) {
-        TODO("Not yet implemented")
     }
 }
