@@ -1,5 +1,6 @@
 package com.rogoz208.notesv2.ui.screens.notes.list
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -12,17 +13,36 @@ import com.rogoz208.notesv2.data.App
 import com.rogoz208.notesv2.databinding.FragmentNotesListBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
+import java.lang.IllegalStateException
 
-class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
+class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContract.View {
     private val adapter = NotesAdapter()
     private val binding by viewBinding(FragmentNotesListBinding::bind)
 
     private lateinit var app: App
     private lateinit var repo: NotesRepo
+    private lateinit var presenter: NotesListContract.Presenter
+
+    private var controller: Controller? = null
+
+    interface Controller {
+        fun openEditNoteScreen(note: NoteEntity?)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        controller = if (context is Controller) {
+            context
+        } else {
+            throw IllegalStateException("Activity must implement NotesListFragment.Controller")
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        presenter = NotesListPresenter()
+        presenter.attach(this)
         initRepo()
         initRecyclerView()
         initFloatingActionButton()
@@ -42,11 +62,13 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
             override fun onItemClick(item: NoteEntity, position: Int) {
                 Toast.makeText(requireContext(), "Click on ${item.title}", Toast.LENGTH_SHORT)
                     .show()
+                presenter.onEditNote(item)
             }
 
             override fun onItemLongClick(item: NoteEntity, itemView: View, position: Int) {
                 Toast.makeText(requireContext(), "Long click on ${item.title}", Toast.LENGTH_SHORT)
                     .show()
+                TODO("Not yet implemented")
             }
         })
     }
@@ -69,6 +91,19 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
 
         binding.addNoteFloatingActionButton.setOnClickListener {
             Toast.makeText(requireContext(), "Add a new note clicked", Toast.LENGTH_SHORT).show()
+            presenter.onAddNote()
         }
+    }
+
+    override fun openAddNoteScreen() {
+        controller?.openEditNoteScreen(null)
+    }
+
+    override fun openEditNoteScreen(note: NoteEntity) {
+        controller?.openEditNoteScreen(note)
+    }
+
+    override fun deleteNote(note: NoteEntity) {
+        TODO("Not yet implemented")
     }
 }

@@ -6,7 +6,21 @@
     <string name="reminders_bottom_nav">Reminders</string>
     <string name="settings_bottom_nav">Settings</string>
 
+    <!--    Edit note fragment-->
+    <string name="title_edit_text">Note title</string>
+    <string name="detail_edit_text">Note details</string>
+
+    <!--    Notes list fragment-->
     <string name="add_new_note_fab">Add new note</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_note_edit">NoteEditActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
