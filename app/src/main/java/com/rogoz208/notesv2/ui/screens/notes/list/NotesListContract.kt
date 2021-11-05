@@ -4,10 +4,10 @@ import com.rogoz208.notesv2.domain.entities.NoteEntity
 
 class NotesListContract {
     interface View {
-        fun showNotes(notes: List<NoteEntity>)
+        fun initRecyclerView(notes: List<NoteEntity>)
+        fun updateRecyclerView(notes: List<NoteEntity>)
         fun openAddNoteScreen()
         fun openEditNoteScreen(note: NoteEntity)
-        fun deleteNote(note: NoteEntity)
     }
 
     interface Presenter {

@@ -11,7 +11,7 @@ class NotesListPresenter(private var app: App): NotesListContract.Presenter {
 
     override fun attach(view: NotesListContract.View) {
         this.view = view
-        this.view?.showNotes(repo.notes)
+        this.view?.initRecyclerView(repo.notes)
     }
 
     override fun detach() {
@@ -28,10 +28,11 @@ class NotesListPresenter(private var app: App): NotesListContract.Presenter {
     }
 
     override fun onDeleteNote(note: NoteEntity) {
-        TODO("Not yet implemented")
+        repo.deleteNote(note.uid.toString())
+        view?.updateRecyclerView(repo.notes)
     }
 
     override fun onNotesUpdated() {
-        view?.showNotes(repo.notes)
+        view?.updateRecyclerView(repo.notes)
     }
 }

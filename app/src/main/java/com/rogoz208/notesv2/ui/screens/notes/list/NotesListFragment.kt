@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -13,13 +14,15 @@ import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.App
 import com.rogoz208.notesv2.databinding.FragmentNotesListBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
-import com.rogoz208.notesv2.domain.repos.NotesRepo
 import com.rogoz208.notesv2.ui.screens.notes.edit.EditNoteActivity
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesAdapter
+import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesDiffCallback
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.OnItemClickListener
 
 class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContract.View {
     private val binding by viewBinding(FragmentNotesListBinding::bind)
+
+    private var adapter = NotesAdapter()
 
     private lateinit var presenter: NotesListContract.Presenter
 
@@ -63,10 +66,8 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
         }
     }
 
-    override fun showNotes(notes: List<NoteEntity>) {
-        val adapter = NotesAdapter()
+    override fun initRecyclerView(notes: List<NoteEntity>) {
         adapter.data = notes
-
         adapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(item: NoteEntity, position: Int) {
                 Toast.makeText(requireContext(), "Click on ${item.title}", Toast.LENGTH_SHORT)
@@ -77,12 +78,20 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
             override fun onItemLongClick(item: NoteEntity, itemView: View, position: Int) {
                 Toast.makeText(requireContext(), "Long click on ${item.title}", Toast.LENGTH_SHORT)
                     .show()
-                TODO("Not yet implemented")
+                // TODO add PopupMenu
+                presenter.onDeleteNote(item)
             }
         })
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
+    }
+
+    override fun updateRecyclerView(notes: List<NoteEntity>) {
+        val notesDiffCallback = NotesDiffCallback(adapter.data, notes)
+        val result = DiffUtil.calculateDiff(notesDiffCallback, true)
+        adapter.data = notes
+        result.dispatchUpdatesTo(adapter)
     }
 
     override fun openAddNoteScreen() {
@@ -95,9 +104,5 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
             putExtra(EditNoteActivity.NOTE_EXTRA_KEY, note)
         }
         startActivityForResult(intent, 1)
-    }
-
-    override fun deleteNote(note: NoteEntity) {
-        TODO("Not yet implemented")
     }
 }
