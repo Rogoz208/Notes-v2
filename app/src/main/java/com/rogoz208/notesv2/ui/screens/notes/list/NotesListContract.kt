@@ -4,6 +4,7 @@ import com.rogoz208.notesv2.domain.entities.NoteEntity
 
 class NotesListContract {
     interface View {
+        fun showNotes(notes: List<NoteEntity>)
         fun openAddNoteScreen()
         fun openEditNoteScreen(note: NoteEntity)
         fun deleteNote(note: NoteEntity)
@@ -16,5 +17,6 @@ class NotesListContract {
         fun onAddNote()
         fun onEditNote(note: NoteEntity)
         fun onDeleteNote(note: NoteEntity)
+        fun onNotesUpdated()
     }
 }

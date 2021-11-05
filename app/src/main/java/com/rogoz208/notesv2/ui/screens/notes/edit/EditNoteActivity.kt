@@ -1,5 +1,6 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -59,7 +60,8 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note), EditNot
     }
 
     override fun closeEditNoteScreen() {
-        // TODO: ("setResult() to update adapter")
+        val intent = Intent()
+        setResult(RESULT_OK, intent)
         finish()
     }
 }
