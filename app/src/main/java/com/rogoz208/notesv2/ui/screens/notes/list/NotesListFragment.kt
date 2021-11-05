@@ -87,7 +87,7 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
 
     override fun openEditNoteScreen(note: NoteEntity) {
         val intent = Intent(requireContext(), EditNoteActivity::class.java).apply {
-            putExtra("NOTE", note)
+            putExtra(EditNoteActivity.NOTE_EXTRA_KEY, note)
         }
         startActivity(intent)
     }
