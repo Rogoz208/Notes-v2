@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.ui.screens.notes.list
+package com.rogoz208.notesv2.ui.screens.notes.list.recycler
 
 import android.view.View
 import com.rogoz208.notesv2.domain.entities.NoteEntity

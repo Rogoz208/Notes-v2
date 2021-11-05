@@ -14,6 +14,8 @@ import com.rogoz208.notesv2.databinding.FragmentNotesListBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 import com.rogoz208.notesv2.ui.screens.notes.edit.EditNoteActivity
+import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesAdapter
+import com.rogoz208.notesv2.ui.screens.notes.list.recycler.OnItemClickListener
 
 class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContract.View {
     private val adapter = NotesAdapter()
