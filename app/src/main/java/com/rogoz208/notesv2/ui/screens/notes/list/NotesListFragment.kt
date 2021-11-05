@@ -3,8 +3,11 @@ package com.rogoz208.notesv2.ui.screens.notes.list
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,6 +69,19 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
         }
     }
 
+    private fun showNotePopupMenu(item: NoteEntity, view: View) {
+        val popupMenu = PopupMenu(requireContext(), view, Gravity.END)
+        popupMenu.inflate(R.menu.note_item_popup_menu)
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.edit_popup_menu_item -> presenter.onEditNote(item)
+                R.id.delete_popup_menu_item -> presenter.onDeleteNote(item)
+            }
+            true
+        }
+        popupMenu.show()
+    }
+
     override fun initRecyclerView(notes: List<NoteEntity>) {
         adapter.data = notes
         adapter.setOnItemClickListener(object : OnItemClickListener {
@@ -78,8 +94,8 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
             override fun onItemLongClick(item: NoteEntity, itemView: View, position: Int) {
                 Toast.makeText(requireContext(), "Long click on ${item.title}", Toast.LENGTH_SHORT)
                     .show()
-                // TODO add PopupMenu
-                presenter.onDeleteNote(item)
+                showNotePopupMenu(item, itemView)
+//                presenter.onDeleteNote(item)
             }
         })
 
