@@ -12,6 +12,6 @@ class EditNoteContract {
         fun attach(view: View)
         fun detach()
 
-        fun onNoteSaved(note: NoteEntity?, title: String?, detail: String?, repo: NotesRepo)
+        fun onNoteSaved(note: NoteEntity?, title: String, detail: String, repo: NotesRepo)
     }
 }

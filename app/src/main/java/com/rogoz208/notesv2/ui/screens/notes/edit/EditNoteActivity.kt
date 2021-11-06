@@ -65,3 +65,5 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note), EditNot
         finish()
     }
 }
+
+// TODO: move save button in toolbar menu

@@ -95,7 +95,6 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
                 Toast.makeText(requireContext(), "Long click on ${item.title}", Toast.LENGTH_SHORT)
                     .show()
                 showNotePopupMenu(item, itemView)
-//                presenter.onDeleteNote(item)
             }
         })
 
@@ -122,3 +121,6 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
         startActivityForResult(intent, 1)
     }
 }
+
+// TODO: recycler view items custom positions
+// TODO: fix startActivityForResult() deprecated

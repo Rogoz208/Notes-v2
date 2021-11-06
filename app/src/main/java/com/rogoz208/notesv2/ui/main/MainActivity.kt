@@ -6,7 +6,6 @@ import android.view.MenuItem
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.databinding.ActivityMainBinding
-import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.ui.screens.notes.list.NotesListFragment
 import com.rogoz208.notesv2.ui.screens.reminders.RemindersFragment
 import com.rogoz208.notesv2.ui.screens.settings.SettingsFragment

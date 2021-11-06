@@ -20,8 +20,11 @@ class App : Application() {
         for (i in 0..20) {
             notesRepo.createNote(
                 NoteEntity(
-                    null, "Заметка $i", "Lorem ipsum dolor sit amet, consectetur " +
-                            "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", null
+                    null,
+                    "Заметка $i",
+                    "Lorem ipsum dolor sit amet, consectetur " +
+                            "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    null
                 )
             )
         }
