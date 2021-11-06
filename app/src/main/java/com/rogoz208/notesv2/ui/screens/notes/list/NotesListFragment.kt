@@ -122,5 +122,3 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
         startActivityForResult(intent, 1)
     }
 }
-
-// TODO: fix startActivityForResult() deprecated

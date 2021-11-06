@@ -15,16 +15,22 @@ class EditNotePresenter : EditNoteContract.Presenter {
         this.view = null
     }
 
-    override fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?, repo: NotesRepo) {
+    override fun onNoteSaved(
+        note: NoteEntity?, title: String, detail: String, position: Int?, repo: NotesRepo
+    ) {
         if (note == null && (title != "" || detail != "")) {
             this.note = NoteEntity(null, title, detail, null)
             repo.createNote(this.note!!)
-        } else if (note != null  && (title != "" || detail != "")){
-            note.title = title
-            note.detail = detail
-            repo.updateNote(note.uid.toString(), note, position!!)
-        } else if (note != null && (title == "" && detail == "")){
-            repo.deleteNote(note.uid.toString())
+        } else {
+            note?.let {
+                if (title != "" || detail != "") {
+                    it.title = title
+                    it.detail = detail
+                    repo.updateNote(it.uid.toString(), it, position!!)
+                } else {
+                    repo.deleteNote(it.uid.toString())
+                }
+            }
         }
         view?.closeEditNoteScreen()
     }
