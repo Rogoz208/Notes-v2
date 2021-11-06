@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/edit_popup_menu_item"
-        android:title="@string/edit_popup_menu_item"/>
+        android:title="@string/edit_popup_menu_item" />
 
     <item
         android:id="@+id/delete_popup_menu_item"
-        android:title="@string/delete_popup_menu_item"/>
+        android:title="@string/delete_popup_menu_item" />
 
 </menu>

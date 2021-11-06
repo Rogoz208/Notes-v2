@@ -4,7 +4,7 @@ import com.rogoz208.notesv2.data.App
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 
-class NotesListPresenter(app: App): NotesListContract.Presenter {
+class NotesListPresenter(app: App) : NotesListContract.Presenter {
     private var view: NotesListContract.View? = null
     private var repo: NotesRepo = app.getNotesRepo()
 

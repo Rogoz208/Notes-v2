@@ -4,14 +4,20 @@ import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 
 class EditNoteContract {
-    interface View{
+    interface View {
         fun closeEditNoteScreen()
     }
 
-    interface Presenter{
+    interface Presenter {
         fun attach(view: View)
         fun detach()
 
-        fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?, repo: NotesRepo)
+        fun onNoteSaved(
+            note: NoteEntity?,
+            title: String,
+            detail: String,
+            position: Int?,
+            repo: NotesRepo
+        )
     }
 }

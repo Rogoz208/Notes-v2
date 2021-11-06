@@ -20,7 +20,6 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note), EditNot
     private val binding by viewBinding(ActivityEditNoteBinding::bind)
 
     private var note: NoteEntity? = null
-    private var position: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
