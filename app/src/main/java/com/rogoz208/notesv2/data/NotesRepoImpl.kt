@@ -32,10 +32,10 @@ class NotesRepoImpl : NotesRepo {
         return false
     }
 
-    override fun updateNote(uid: String, note: NoteEntity): Boolean {
+    override fun updateNote(uid: String, note: NoteEntity, position: Int): Boolean {
         deleteNote(uid)
         note.uid = uid
-        cache.add(note)
+        cache.add(position, note)
         return true
     }
 }

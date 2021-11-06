@@ -10,6 +10,6 @@ interface NotesRepo {
 
     fun deleteNote(uid: String): Boolean
 
-    fun updateNote(uid: String, note: NoteEntity): Boolean
+    fun updateNote(uid: String, note: NoteEntity, position: Int): Boolean
 
 }

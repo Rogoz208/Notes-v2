@@ -23,8 +23,8 @@ class NotesListPresenter(app: App): NotesListContract.Presenter {
 
     }
 
-    override fun onEditNote(note: NoteEntity) {
-        view?.openEditNoteScreen(note)
+    override fun onEditNote(note: NoteEntity, position: Int) {
+        view?.openEditNoteScreen(note, position)
     }
 
     override fun onDeleteNote(note: NoteEntity) {

@@ -69,12 +69,12 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
         }
     }
 
-    private fun showNotePopupMenu(item: NoteEntity, view: View) {
+    private fun showNotePopupMenu(item: NoteEntity, position: Int, view: View) {
         val popupMenu = PopupMenu(requireContext(), view, Gravity.END)
         popupMenu.inflate(R.menu.note_item_popup_menu)
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
-                R.id.edit_popup_menu_item -> presenter.onEditNote(item)
+                R.id.edit_popup_menu_item -> presenter.onEditNote(item, position)
                 R.id.delete_popup_menu_item -> presenter.onDeleteNote(item)
             }
             true
@@ -88,13 +88,13 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
             override fun onItemClick(item: NoteEntity, position: Int) {
                 Toast.makeText(requireContext(), "Click on ${item.title}", Toast.LENGTH_SHORT)
                     .show()
-                presenter.onEditNote(item)
+                presenter.onEditNote(item, position)
             }
 
             override fun onItemLongClick(item: NoteEntity, itemView: View, position: Int) {
                 Toast.makeText(requireContext(), "Long click on ${item.title}", Toast.LENGTH_SHORT)
                     .show()
-                showNotePopupMenu(item, itemView)
+                showNotePopupMenu(item, position, itemView)
             }
         })
 
@@ -114,13 +114,13 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list), NotesListContr
         startActivityForResult(intent, 1)
     }
 
-    override fun openEditNoteScreen(note: NoteEntity) {
+    override fun openEditNoteScreen(note: NoteEntity, position: Int) {
         val intent = Intent(requireContext(), EditNoteActivity::class.java).apply {
             putExtra(EditNoteActivity.NOTE_EXTRA_KEY, note)
+            putExtra(EditNoteActivity.NOTE_POSITION_EXTRA_KEY, position)
         }
         startActivityForResult(intent, 1)
     }
 }
 
-// TODO: recycler view items custom positions
 // TODO: fix startActivityForResult() deprecated

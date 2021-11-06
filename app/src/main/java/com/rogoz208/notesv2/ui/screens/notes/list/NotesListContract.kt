@@ -7,7 +7,7 @@ class NotesListContract {
         fun initRecyclerView(notes: List<NoteEntity>)
         fun updateRecyclerView(notes: List<NoteEntity>)
         fun openAddNoteScreen()
-        fun openEditNoteScreen(note: NoteEntity)
+        fun openEditNoteScreen(note: NoteEntity, position: Int)
     }
 
     interface Presenter {
@@ -15,7 +15,7 @@ class NotesListContract {
         fun detach()
 
         fun onAddNote()
-        fun onEditNote(note: NoteEntity)
+        fun onEditNote(note: NoteEntity, position: Int)
         fun onDeleteNote(note: NoteEntity)
         fun onNotesUpdated()
     }
