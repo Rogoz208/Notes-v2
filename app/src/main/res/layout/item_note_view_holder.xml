@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textSize="@dimen/large_text_size"
+                android:textSize="@dimen/medium_text_size"
                 android:textStyle="bold"
                 tools:text="Заголовок заметки" />
 
@@ -36,8 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="3"
-                android:textSize="@dimen/medium_text_size"
+                android:maxLines="11"
+                android:textSize="@dimen/small_text_size"
                 tools:text="Lorem ipsum dolor sit amet, consectetur
                 adipiscing elit, sed do eiusmod tempor incididunt ut
                 labore et dolore magna aliqua." />
