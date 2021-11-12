@@ -3,12 +3,16 @@
     package="com.rogoz208.notesv2">
 
     <application
+        android:name=".data.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Notesv2">
+        <activity
+            android:name=".ui.screens.notes.edit.EditNoteActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">

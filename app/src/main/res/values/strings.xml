@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">Notes-v2</string>
+    <string name="app_name">Notes</string>
+
+    <!--    Bottom navigation-->
+    <string name="notes_bottom_nav">Notes</string>
+    <string name="reminders_bottom_nav">Reminders</string>
+    <string name="settings_bottom_nav">Settings</string>
+
+    <!--    Edit note fragment-->
+    <string name="title_edit_text">Note title</string>
+    <string name="detail_edit_text">Note details</string>
+
+    <!--    Notes list fragment-->
+    <string name="add_new_note_fab">Add new note</string>
+
+    <!--    Note item popup menu-->
+    <string name="edit_popup_menu_item">Edit</string>
+    <string name="delete_popup_menu_item">Delete</string>
 </resources>
