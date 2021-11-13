@@ -1,19 +1,14 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 
-class EditNotePresenter : EditNoteContract.Presenter {
-    private var view: EditNoteContract.View? = null
+class EditNoteViewModel : ViewModel(), EditNoteContract.ViewModel {
     private var note: NoteEntity? = null
 
-    override fun attach(view: EditNoteContract.View) {
-        this.view = view
-    }
-
-    override fun detach() {
-        this.view = null
-    }
+    override val noteSavedLiveData = MutableLiveData(false)
 
     override fun onNoteSaved(
         note: NoteEntity?, title: String, detail: String, position: Int?, repo: NotesRepo
@@ -32,6 +27,6 @@ class EditNotePresenter : EditNoteContract.Presenter {
                 }
             }
         }
-        view?.closeEditNoteScreen()
+        noteSavedLiveData.postValue(true)
     }
 }

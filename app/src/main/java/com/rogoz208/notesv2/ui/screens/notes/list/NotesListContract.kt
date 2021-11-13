@@ -1,20 +1,15 @@
 package com.rogoz208.notesv2.ui.screens.notes.list
 
+import androidx.lifecycle.LiveData
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 
 class NotesListContract {
-    interface View {
-        fun initRecyclerView(notes: List<NoteEntity>)
-        fun updateRecyclerView(notes: List<NoteEntity>)
-        fun openAddNoteScreen()
-        fun openEditNoteScreen(note: NoteEntity, position: Int)
-    }
 
-    interface Presenter {
-        fun attach(view: View)
-        fun detach()
+    interface ViewModel {
+        val notesListLiveData: LiveData<List<NoteEntity>>
+        val editingNoteLiveData: LiveData<NoteEntity>
+        val editingNotePositionLiveData: LiveData<Int>
 
-        fun onAddNote()
         fun onEditNote(note: NoteEntity, position: Int)
         fun onDeleteNote(note: NoteEntity)
         fun onNotesUpdated()
