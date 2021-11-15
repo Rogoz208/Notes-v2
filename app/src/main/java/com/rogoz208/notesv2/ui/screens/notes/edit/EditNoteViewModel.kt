@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModel
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 
-class EditNoteViewModel : ViewModel(), EditNoteContract.ViewModel {
+class EditNoteViewModel(private val repo: NotesRepo) : ViewModel(), EditNoteContract.ViewModel {
     private var note: NoteEntity? = null
 
     override val noteSavedLiveData = MutableLiveData(false)
 
-    override fun onNoteSaved(
-        note: NoteEntity?, title: String, detail: String, position: Int?, repo: NotesRepo
-    ) {
+    override fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?) {
         if (note == null && (title != "" || detail != "")) {
             this.note = NoteEntity(null, title, detail, null)
             repo.createNote(this.note!!)
