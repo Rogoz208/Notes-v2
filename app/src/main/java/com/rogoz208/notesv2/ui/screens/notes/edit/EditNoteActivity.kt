@@ -3,19 +3,20 @@ package com.rogoz208.notesv2.ui.screens.notes.edit
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.App
 import com.rogoz208.notesv2.databinding.ActivityEditNoteBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 
-class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note), EditNoteContract.View {
+class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     companion object {
         const val NOTE_EXTRA_KEY = "NOTE_EXTRA_KEY"
         const val NOTE_POSITION_EXTRA_KEY = "NOTE_POSITION_EXTRA_KEY"
     }
 
-    private lateinit var presenter: EditNoteContract.Presenter
+    private val viewModel: EditNoteContract.ViewModel by viewModels<EditNoteViewModel>()
 
     private val binding by viewBinding(ActivityEditNoteBinding::bind)
 
@@ -24,10 +25,19 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note), EditNot
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter = EditNotePresenter()
-        presenter.attach(this)
+        initViewModel()
         initToolbar()
         fillViews()
+    }
+
+    private fun initViewModel() {
+        viewModel.noteSavedLiveData.observe(this) { isNoteSaved ->
+            if (isNoteSaved) {
+                val intent = Intent()
+                setResult(RESULT_OK, intent)
+                finish()
+            }
+        }
     }
 
     private fun initToolbar() {
@@ -37,7 +47,6 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note), EditNot
 
     override fun onBackPressed() {
         saveNote()
-        super.onBackPressed()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -59,18 +68,12 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note), EditNot
         if (intent.hasExtra(NOTE_POSITION_EXTRA_KEY)) {
             position = intent.getIntExtra(NOTE_POSITION_EXTRA_KEY, 0)
         }
-        presenter.onNoteSaved(
+        viewModel.onNoteSaved(
             note,
             binding.titleEditText.text.toString(),
             binding.detailEditText.text.toString(),
             position,
             app.getNotesRepo()
         )
-    }
-
-    override fun closeEditNoteScreen() {
-        val intent = Intent()
-        setResult(RESULT_OK, intent)
-        finish()
     }
 }
