@@ -1,9 +1,14 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.app
@@ -17,13 +22,14 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     }
 
     private val viewModel: EditNoteContract.ViewModel by viewModels {
-        EditNoteViewModelFactory(app.notesRepo)
+        EditNoteViewModelFactory(app.notesRepo, app.urlPreviewRepo)
     }
 
     private val binding by viewBinding(ActivityEditNoteBinding::bind)
 
     private var note: NoteEntity? = null
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,6 +44,21 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
                 val intent = Intent()
                 setResult(RESULT_OK, intent)
                 finish()
+            }
+        }
+
+        viewModel.webPageLiveData.observe(this) { webPage ->
+            webPage?.let {
+                binding.urlPreviewWebView.loadDataWithBaseURL(
+                    null,
+                    it,
+                    "text/html; charset=utf-8",
+                    "utf-8",
+                    null
+                )
+            }
+            if (webPage == null) {
+                binding.urlPreviewWebView.loadUrl("about:blank")
             }
         }
     }
@@ -56,12 +77,27 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun fillViews() {
         note = intent.getParcelableExtra(NOTE_EXTRA_KEY)
         note?.let { note ->
             binding.titleEditText.setText(note.title)
             binding.detailEditText.setText(note.detail)
+            viewModel.onNoteDetailsChanged(note.detail)
         }
+
+        binding.detailEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.onNoteDetailsChanged(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
     }
 
     private fun saveNote() {
