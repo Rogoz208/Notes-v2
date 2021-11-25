@@ -16,6 +16,9 @@ This is a simple notes app for Android
 - adding, deleting and updating notes
 - MVVM for NotesListFragment and EditNoteActivity
 
+### branch: lesson-5 (25.11.2021)
+- url preview in EditNoteActivity
+
 ## Fixes
 
 ## Additional features
