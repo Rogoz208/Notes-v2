@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
-import com.rogoz208.notesv2.data.App
+import com.rogoz208.notesv2.data.app
 import com.rogoz208.notesv2.databinding.FragmentNotesListBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.ui.screens.notes.edit.EditNoteActivity
@@ -26,7 +26,7 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     private val binding by viewBinding(FragmentNotesListBinding::bind)
 
     private val viewModel: NotesListContract.ViewModel by viewModels {
-        NotesListViewModelFactory(requireActivity().application as App)
+        NotesListViewModelFactory(requireActivity().app.notesRepo)
     }
 
     private var adapter = NotesAdapter()

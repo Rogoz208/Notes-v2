@@ -2,12 +2,10 @@ package com.rogoz208.notesv2.ui.screens.notes.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rogoz208.notesv2.data.App
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 
-class NotesListViewModel(app: App) : ViewModel(), NotesListContract.ViewModel {
-    private var repo: NotesRepo = app.getNotesRepo()
+class NotesListViewModel(private val repo: NotesRepo) : ViewModel(), NotesListContract.ViewModel {
 
     override val notesListLiveData = MutableLiveData<List<NoteEntity>>()
     override val editingNoteLiveData = MutableLiveData<NoteEntity>()

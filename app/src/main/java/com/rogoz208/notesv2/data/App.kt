@@ -1,23 +1,20 @@
 package com.rogoz208.notesv2.data
 
 import android.app.Application
+import android.content.Context
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 
 class App : Application() {
-    private val notesRepo: NotesRepo = NotesRepoImpl()
+    val notesRepo: NotesRepo by lazy { NotesRepoImpl() }
 
     override fun onCreate() {
         super.onCreate()
         fillRepoByTestValues()
     }
 
-    fun getNotesRepo(): NotesRepo {
-        return notesRepo
-    }
-
     private fun fillRepoByTestValues() {
-        for (i in 0..20) {
+        for (i in 1..20) {
             notesRepo.createNote(
                 NoteEntity(
                     null,
@@ -30,3 +27,6 @@ class App : Application() {
         }
     }
 }
+
+val Context.app: App
+    get() = applicationContext as App
