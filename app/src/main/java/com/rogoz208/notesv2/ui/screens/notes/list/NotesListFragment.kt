@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,12 +21,14 @@ import com.rogoz208.notesv2.ui.screens.notes.edit.EditNoteActivity
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesAdapter
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesDiffCallback
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.OnItemClickListener
+import java.text.DateFormat
+import java.util.*
 
 class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     private val binding by viewBinding(FragmentNotesListBinding::bind)
 
     private val viewModel: NotesListContract.ViewModel by viewModels {
-        NotesListViewModelFactory(requireActivity().app.notesRepo)
+        NotesListViewModelFactory(requireActivity().app)
     }
 
     private var adapter = NotesAdapter()
@@ -112,11 +114,21 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     }
 
     private fun openEditNoteScreen(note: NoteEntity?) {
+        val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM)
+        val currentTime = dateFormat.format(Calendar.getInstance().time)
         if (note == null) {
+            requireActivity().app.analytics.logEvent(
+                requireContext(),
+                "$currentTime - Empty note is open"
+            )
             val intent = Intent(requireContext(), EditNoteActivity::class.java)
             startActivityForResult(intent, 1)
         } else {
             val intent = Intent(requireContext(), EditNoteActivity::class.java).apply {
+                requireActivity().app.analytics.logEvent(
+                    requireContext(),
+                    "$currentTime - Note \"${note.title}\" is open"
+                )
                 putExtra(EditNoteActivity.NOTE_EXTRA_KEY, note)
                 putExtra(
                     EditNoteActivity.NOTE_POSITION_EXTRA_KEY,

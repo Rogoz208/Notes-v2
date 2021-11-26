@@ -5,14 +5,12 @@ import android.util.Patterns
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.rogoz208.notesv2.data.App
 import com.rogoz208.notesv2.domain.entities.NoteEntity
-import com.rogoz208.notesv2.domain.repos.NotesRepo
-import com.rogoz208.notesv2.domain.repos.UrlPreviewRepo
+import java.text.DateFormat
+import java.util.*
 
-class EditNoteViewModel(
-    private val notesRepo: NotesRepo,
-    private val urlPreviewRepo: UrlPreviewRepo
-) : ViewModel(), EditNoteContract.ViewModel {
+class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.ViewModel {
     private var note: NoteEntity? = null
 
     override val noteSavedLiveData = MutableLiveData(false)
@@ -21,15 +19,26 @@ class EditNoteViewModel(
     override fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?) {
         if (note == null && (title != "" || detail != "")) {
             this.note = NoteEntity(null, title, detail, null)
-            notesRepo.createNote(this.note!!)
+            this.note?.let {
+                app.notesRepo.createNote(it)
+                app.analytics.logEvent(app, "${getCurrentTime()} - Note \"${it.title}\" is created")
+            }
         } else {
             note?.let {
                 if (title != "" || detail != "") {
                     it.title = title
                     it.detail = detail
-                    notesRepo.updateNote(it.uid.toString(), it, position!!)
+                    app.notesRepo.updateNote(it.uid.toString(), it, position!!)
+                    app.analytics.logEvent(
+                        app,
+                        "${getCurrentTime()} - Note \"${it.title}\" is updated"
+                    )
                 } else {
-                    notesRepo.deleteNote(it.uid.toString())
+                    app.notesRepo.deleteNote(it.uid.toString())
+                    app.analytics.logEvent(
+                        app,
+                        "${getCurrentTime()} - Note \"${it.title}\" is deleted"
+                    )
                 }
             }
         }
@@ -40,7 +49,7 @@ class EditNoteViewModel(
     override fun onNoteDetailsChanged(noteDetails: String) {
         val url = extractUrl(noteDetails)
         url?.let {
-            urlPreviewRepo.getWebPageAsync(url) {
+            app.urlPreviewRepo.getWebPageAsync(url) {
                 webPageLiveData.postValue(it)
             }
         }
@@ -57,5 +66,10 @@ class EditNoteViewModel(
             }
         }
         return url
+    }
+
+    private fun getCurrentTime(): String {
+        val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM)
+        return dateFormat.format(Calendar.getInstance().time)
     }
 }

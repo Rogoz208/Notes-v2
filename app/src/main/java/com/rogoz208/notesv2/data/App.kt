@@ -9,6 +9,7 @@ import com.rogoz208.notesv2.domain.repos.UrlPreviewRepo
 class App : Application() {
     val notesRepo: NotesRepo by lazy { NotesRepoImpl() }
     val urlPreviewRepo: UrlPreviewRepo by lazy { UrlPreviewRepoImpl() }
+    val analytics: MyAnalytics by lazy { MyAnalytics() }
 
     override fun onCreate() {
         super.onCreate()
