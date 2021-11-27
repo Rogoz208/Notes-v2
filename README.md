@@ -19,6 +19,10 @@ This is a simple notes app for Android
 ### branch: lesson-5 (25.11.2021)
 - url preview in EditNoteActivity
 
+### branch: lesson-6 (28.11.2021)
+- logging in file
+- network status
+
 ## Fixes
 
 ## Additional features
