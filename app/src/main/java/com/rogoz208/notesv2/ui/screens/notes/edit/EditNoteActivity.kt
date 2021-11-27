@@ -76,7 +76,6 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun fillViews() {
         note = intent.getParcelableExtra(NOTE_EXTRA_KEY)
         note?.let { note ->

@@ -1,14 +1,10 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
-import android.os.Build
 import android.util.Patterns
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rogoz208.notesv2.data.App
 import com.rogoz208.notesv2.domain.entities.NoteEntity
-import java.text.DateFormat
-import java.util.*
 
 class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.ViewModel {
     private var note: NoteEntity? = null
@@ -21,7 +17,7 @@ class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.Vi
             this.note = NoteEntity(null, title, detail, null)
             this.note?.let {
                 app.notesRepo.createNote(it)
-                app.analytics.logEvent(app, "${getCurrentTime()} - Note \"${it.title}\" is created")
+                app.analytics.logEvent(app, "Note \"${it.title}\" is created")
             }
         } else {
             note?.let {
@@ -31,13 +27,13 @@ class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.Vi
                     app.notesRepo.updateNote(it.uid.toString(), it, position!!)
                     app.analytics.logEvent(
                         app,
-                        "${getCurrentTime()} - Note \"${it.title}\" is updated"
+                        "Note \"${it.title}\" is saved"
                     )
                 } else {
                     app.notesRepo.deleteNote(it.uid.toString())
                     app.analytics.logEvent(
                         app,
-                        "${getCurrentTime()} - Note \"${it.title}\" is deleted"
+                        "Note \"${it.title}\" is deleted"
                     )
                 }
             }
@@ -45,7 +41,6 @@ class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.Vi
         noteSavedLiveData.postValue(true)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onNoteDetailsChanged(noteDetails: String) {
         val url = extractUrl(noteDetails)
         url?.let {
@@ -66,10 +61,5 @@ class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.Vi
             }
         }
         return url
-    }
-
-    private fun getCurrentTime(): String {
-        val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM)
-        return dateFormat.format(Calendar.getInstance().time)
     }
 }

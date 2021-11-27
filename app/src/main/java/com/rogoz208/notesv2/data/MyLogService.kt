@@ -9,25 +9,22 @@ import java.io.IOException
 
 class MyLogService(name: String = "MyLogService") : IntentService(name) {
     companion object {
-        private const val TAG = "@@@"
+        const val LOG_FILE = "log.txt"
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        val eventMessage = intent?.getStringExtra("eventMessage")
-        eventMessage?.let {
-            Log.d(TAG, eventMessage)
-            writeToFile(eventMessage)
-        }
+        val eventMessage = intent?.getStringExtra(MyAnalytics.EVENT_MESSAGE_EXTRA_KEY)
+        eventMessage?.let { writeToFile(it) }
     }
 
     private fun writeToFile(data: String) {
-        val myFile = File(filesDir, "logs.txt")
+        val myFile = File(filesDir, LOG_FILE)
         val outputStream: FileOutputStream?
         try {
-            outputStream = FileOutputStream(myFile, true)
+            outputStream = FileOutputStream(myFile,true)
             outputStream.write("$data\n".toByteArray())
         } catch (e: IOException) {
-            Log.e("Exception", "File write failed: " + e.toString())
+            Log.e("Exception", "File write failed: $e")
         }
     }
 }

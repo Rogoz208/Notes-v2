@@ -114,12 +114,10 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     }
 
     private fun openEditNoteScreen(note: NoteEntity?) {
-        val dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM)
-        val currentTime = dateFormat.format(Calendar.getInstance().time)
         if (note == null) {
             requireActivity().app.analytics.logEvent(
                 requireContext(),
-                "$currentTime - Empty note is open"
+                "Empty note is open"
             )
             val intent = Intent(requireContext(), EditNoteActivity::class.java)
             startActivityForResult(intent, 1)
@@ -127,7 +125,7 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
             val intent = Intent(requireContext(), EditNoteActivity::class.java).apply {
                 requireActivity().app.analytics.logEvent(
                     requireContext(),
-                    "$currentTime - Note \"${note.title}\" is open"
+                    "Note \"${note.title}\" is open"
                 )
                 putExtra(EditNoteActivity.NOTE_EXTRA_KEY, note)
                 putExtra(
