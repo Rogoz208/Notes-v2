@@ -21,8 +21,6 @@ import com.rogoz208.notesv2.ui.screens.notes.edit.EditNoteActivity
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesAdapter
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesDiffCallback
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.OnItemClickListener
-import java.text.DateFormat
-import java.util.*
 
 class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     private val binding by viewBinding(FragmentNotesListBinding::bind)

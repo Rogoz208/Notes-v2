@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
-            android:text="There is no log yet" />
+            android:text="@string/empty_logs_message" />
     </ScrollView>
 
 </LinearLayout>

@@ -6,7 +6,7 @@
     <string name="reminders_bottom_nav">Reminders</string>
     <string name="settings_bottom_nav">Settings</string>
 
-    <!--    Edit note fragment-->
+    <!--    Edit note activity-->
     <string name="title_edit_text">Note title</string>
     <string name="detail_edit_text">Note details</string>
 
@@ -16,4 +16,10 @@
     <!--    Note item popup menu-->
     <string name="edit_popup_menu_item">Edit</string>
     <string name="delete_popup_menu_item">Delete</string>
+
+    <!--    Settings Fragment-->
+    <string name="show_logs_button">Show logs</string>
+
+    <!--    Log Fragment-->
+    <string name="empty_logs_message">There is no log yet</string>
 </resources>
