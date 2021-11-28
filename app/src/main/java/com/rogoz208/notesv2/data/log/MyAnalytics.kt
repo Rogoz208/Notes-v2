@@ -5,12 +5,12 @@ import android.content.Intent
 import java.text.DateFormat
 import java.util.*
 
-class MyAnalytics {
+class MyAnalytics(private val context: Context) {
     companion object {
         const val EVENT_MESSAGE_EXTRA_KEY = "EVENT_MESSAGE_EXTRA_KEY"
     }
 
-    fun logEvent(context: Context, eventMessage: String) {
+    fun logEvent(eventMessage: String) {
         val service = Intent(context, MyLogService::class.java)
         service.putExtra(
             EVENT_MESSAGE_EXTRA_KEY, "${getCurrentTime()} - $eventMessage"

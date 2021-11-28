@@ -26,7 +26,7 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     private val binding by viewBinding(FragmentNotesListBinding::bind)
 
     private val viewModel: NotesListContract.ViewModel by viewModels {
-        NotesListViewModelFactory(requireContext(), requireContext().app.notesRepo, requireContext().app.analytics)
+        NotesListViewModelFactory(requireContext().app.notesRepo, requireContext().app.analytics)
     }
 
     private var adapter = NotesAdapter()
@@ -113,18 +113,12 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
 
     private fun openEditNoteScreen(note: NoteEntity?) {
         if (note == null) {
-            requireActivity().app.analytics.logEvent(
-                requireContext(),
-                "Empty note is open"
-            )
+            requireActivity().app.analytics.logEvent("Empty note is open")
             val intent = Intent(requireContext(), EditNoteActivity::class.java)
             startActivityForResult(intent, 1)
         } else {
             val intent = Intent(requireContext(), EditNoteActivity::class.java).apply {
-                requireActivity().app.analytics.logEvent(
-                    requireContext(),
-                    "Note \"${note.title}\" is open"
-                )
+                requireActivity().app.analytics.logEvent("Note \"${note.title}\" is open")
                 putExtra(EditNoteActivity.NOTE_EXTRA_KEY, note)
                 putExtra(
                     EditNoteActivity.NOTE_POSITION_EXTRA_KEY,

@@ -14,7 +14,7 @@ import com.rogoz208.notesv2.domain.repos.UrlPreviewRepo
 class App : Application() {
     val notesRepo: NotesRepo by lazy { NotesRepoImpl() }
     val urlPreviewRepo: UrlPreviewRepo by lazy { UrlPreviewRepoImpl() }
-    val analytics: MyAnalytics by lazy { MyAnalytics() }
+    val analytics: MyAnalytics by lazy { MyAnalytics(this) }
 
     private val networkReceiver by lazy { NetworkStateReceiver() }
     private val intentFilterNetwork by lazy { IntentFilter() }

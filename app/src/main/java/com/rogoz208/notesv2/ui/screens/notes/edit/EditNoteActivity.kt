@@ -21,7 +21,7 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     }
 
     private val viewModel: EditNoteContract.ViewModel by viewModels {
-        EditNoteViewModelFactory(this, app.notesRepo, app.urlPreviewRepo, app.analytics)
+        EditNoteViewModelFactory(app.notesRepo, app.urlPreviewRepo, app.analytics)
     }
 
     private val binding by viewBinding(ActivityEditNoteBinding::bind)

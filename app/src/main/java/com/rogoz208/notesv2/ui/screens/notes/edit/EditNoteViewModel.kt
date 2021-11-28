@@ -1,6 +1,5 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
-import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import com.rogoz208.notesv2.domain.repos.NotesRepo
 import com.rogoz208.notesv2.domain.repos.UrlPreviewRepo
 
 class EditNoteViewModel(
-    private val context: Context,
     private val notesRepo: NotesRepo,
     private val urlPreviewRepo: UrlPreviewRepo,
     private val analytics: MyAnalytics
@@ -25,7 +23,7 @@ class EditNoteViewModel(
             this.note = NoteEntity(null, title, detail, null)
             this.note?.let {
                 notesRepo.createNote(it)
-                analytics.logEvent(context, "Note \"${it.title}\" is created")
+                analytics.logEvent("Note \"${it.title}\" is created")
             }
         } else {
             note?.let {
@@ -33,13 +31,10 @@ class EditNoteViewModel(
                     it.title = title
                     it.detail = detail
                     notesRepo.updateNote(it.uid.toString(), it, position!!)
-                    analytics.logEvent(context, "Note \"${it.title}\" is saved")
+                    analytics.logEvent("Note \"${it.title}\" is saved")
                 } else {
                     notesRepo.deleteNote(it.uid.toString())
-                    analytics.logEvent(
-                        context,
-                        "Note \"${it.title}\" is deleted"
-                    )
+                    analytics.logEvent("Note \"${it.title}\" is deleted")
                 }
             }
         }
