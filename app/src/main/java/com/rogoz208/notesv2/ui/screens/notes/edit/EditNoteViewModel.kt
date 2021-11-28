@@ -1,12 +1,20 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rogoz208.notesv2.data.App
+import com.rogoz208.notesv2.data.log.MyAnalytics
 import com.rogoz208.notesv2.domain.entities.NoteEntity
+import com.rogoz208.notesv2.domain.repos.NotesRepo
+import com.rogoz208.notesv2.domain.repos.UrlPreviewRepo
 
-class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.ViewModel {
+class EditNoteViewModel(
+    private val context: Context,
+    private val notesRepo: NotesRepo,
+    private val urlPreviewRepo: UrlPreviewRepo,
+    private val analytics: MyAnalytics
+) : ViewModel(), EditNoteContract.ViewModel {
     private var note: NoteEntity? = null
 
     override val noteSavedLiveData = MutableLiveData(false)
@@ -16,23 +24,20 @@ class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.Vi
         if (note == null && (title != "" || detail != "")) {
             this.note = NoteEntity(null, title, detail, null)
             this.note?.let {
-                app.notesRepo.createNote(it)
-                app.analytics.logEvent(app, "Note \"${it.title}\" is created")
+                notesRepo.createNote(it)
+                analytics.logEvent(context, "Note \"${it.title}\" is created")
             }
         } else {
             note?.let {
                 if (title != "" || detail != "") {
                     it.title = title
                     it.detail = detail
-                    app.notesRepo.updateNote(it.uid.toString(), it, position!!)
-                    app.analytics.logEvent(
-                        app,
-                        "Note \"${it.title}\" is saved"
-                    )
+                    notesRepo.updateNote(it.uid.toString(), it, position!!)
+                    analytics.logEvent(context, "Note \"${it.title}\" is saved")
                 } else {
-                    app.notesRepo.deleteNote(it.uid.toString())
-                    app.analytics.logEvent(
-                        app,
+                    notesRepo.deleteNote(it.uid.toString())
+                    analytics.logEvent(
+                        context,
                         "Note \"${it.title}\" is deleted"
                     )
                 }
@@ -44,7 +49,7 @@ class EditNoteViewModel(private val app: App) : ViewModel(), EditNoteContract.Vi
     override fun onNoteDetailsChanged(noteDetails: String) {
         val url = extractUrl(noteDetails)
         url?.let {
-            app.urlPreviewRepo.getWebPageAsync(url) {
+            urlPreviewRepo.getWebPageAsync(url) {
                 webPageLiveData.postValue(it)
             }
         }

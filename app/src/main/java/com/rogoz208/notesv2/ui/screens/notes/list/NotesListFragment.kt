@@ -26,7 +26,7 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     private val binding by viewBinding(FragmentNotesListBinding::bind)
 
     private val viewModel: NotesListContract.ViewModel by viewModels {
-        NotesListViewModelFactory(requireActivity().app)
+        NotesListViewModelFactory(requireContext(), requireContext().app.notesRepo, requireContext().app.analytics)
     }
 
     private var adapter = NotesAdapter()
