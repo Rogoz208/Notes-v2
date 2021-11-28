@@ -9,3 +9,5 @@ data class NoteEntity(
     var detail: String,
     var creationDate: Long?
 ) : Parcelable
+
+// TODO: var to val (lesson-8 - 00:45:17)

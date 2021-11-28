@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
-import com.rogoz208.notesv2.data.MyLogService
+import com.rogoz208.notesv2.data.log.MyLogService
 import com.rogoz208.notesv2.databinding.FragmentLogBinding
 import java.io.*
 

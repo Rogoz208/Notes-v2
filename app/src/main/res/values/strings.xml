@@ -25,7 +25,7 @@
 
     <!--    Network state receiver-->
     <string name="no_internet_connection">No internet connection</string>
-    <string name="wifi_is_connected">WIFI is connected</string>
+    <string name="wifi_is_connected">WiFi is connected</string>
     <string name="cellular_is_connected">Cellular is connected</string>
     <string name="ethernet_is_connected">Ethernet is connected</string>
     <string name="connected_via_bluetooth">Internet connected via bluetooth</string>

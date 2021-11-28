@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.data
+package com.rogoz208.notesv2.data.log
 
 import android.app.IntentService
 import android.content.Intent

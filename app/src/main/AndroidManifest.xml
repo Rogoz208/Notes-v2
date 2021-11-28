@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Notesv2">
         <receiver
-            android:name=".data.NetworkStateReceiver"
+            android:name=".data.log.NetworkStateReceiver"
             android:enabled="true"
             android:exported="true">
         </receiver>
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".data.MyLogService" />
+        <service android:name=".data.log.MyLogService" />
     </application>
 
 </manifest>
