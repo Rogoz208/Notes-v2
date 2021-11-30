@@ -2,17 +2,21 @@ package com.rogoz208.notesv2.ui.screens.notes.list
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.rogoz208.notesv2.data.log.MyAnalytics
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 
-class NotesListViewModel(private val repo: NotesRepo) : ViewModel(), NotesListContract.ViewModel {
+class NotesListViewModel(
+    private val notesRepo: NotesRepo,
+    private val analytics: MyAnalytics
+) : ViewModel(), NotesListContract.ViewModel {
 
     override val notesListLiveData = MutableLiveData<List<NoteEntity>>()
     override val editingNoteLiveData = MutableLiveData<NoteEntity>()
     override val editingNotePositionLiveData = MutableLiveData<Int>()
 
     init {
-        notesListLiveData.value = repo.notes
+        notesListLiveData.value = notesRepo.notes
     }
 
     override fun onEditNote(note: NoteEntity, position: Int) {
@@ -21,11 +25,12 @@ class NotesListViewModel(private val repo: NotesRepo) : ViewModel(), NotesListCo
     }
 
     override fun onDeleteNote(note: NoteEntity) {
-        repo.deleteNote(note.uid.toString())
-        notesListLiveData.postValue(repo.notes)
+        notesRepo.deleteNote(note.uid.toString())
+        analytics.logEvent("Note \"${note.title}\" is deleted")
+        notesListLiveData.postValue(notesRepo.notes)
     }
 
     override fun onNotesUpdated() {
-        notesListLiveData.postValue(repo.notes)
+        notesListLiveData.postValue(notesRepo.notes)
     }
 }

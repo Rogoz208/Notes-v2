@@ -6,7 +6,7 @@
     <string name="reminders_bottom_nav">Reminders</string>
     <string name="settings_bottom_nav">Settings</string>
 
-    <!--    Edit note fragment-->
+    <!--    Edit note activity-->
     <string name="title_edit_text">Note title</string>
     <string name="detail_edit_text">Note details</string>
 
@@ -16,4 +16,17 @@
     <!--    Note item popup menu-->
     <string name="edit_popup_menu_item">Edit</string>
     <string name="delete_popup_menu_item">Delete</string>
+
+    <!--    Settings Fragment-->
+    <string name="show_logs_button">Show logs</string>
+
+    <!--    Log Fragment-->
+    <string name="empty_logs_message">There is no log yet</string>
+
+    <!--    Network state receiver-->
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="wifi_is_connected">WiFi is connected</string>
+    <string name="cellular_is_connected">Cellular is connected</string>
+    <string name="ethernet_is_connected">Ethernet is connected</string>
+    <string name="connected_via_bluetooth">Internet connected via bluetooth</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.data
+package com.rogoz208.notesv2.data.repos
 
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
@@ -6,11 +6,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class NotesRepoImpl : NotesRepo {
-    private val cache = ArrayList<NoteEntity>()
+    private val cache: MutableList<NoteEntity> = mutableListOf()
 
     override val notes: List<NoteEntity>
         get() {
-            return ArrayList(cache)
+            return ArrayList<NoteEntity>(cache)
         }
 
     override fun createNote(note: NoteEntity): String {
@@ -18,6 +18,8 @@ class NotesRepoImpl : NotesRepo {
         val creationDate = Calendar.getInstance().timeInMillis
         note.uid = newId
         note.creationDate = creationDate
+
+//        cache.add(note.copy(uid = newId, creationDate = creationDate))
         cache.add(note)
         return newId
     }
@@ -35,6 +37,7 @@ class NotesRepoImpl : NotesRepo {
     override fun updateNote(uid: String, note: NoteEntity, position: Int): Boolean {
         deleteNote(uid)
         note.uid = uid
+//        cache.add(position, note.copy(uid = uid))
         cache.add(position, note)
         return true
     }

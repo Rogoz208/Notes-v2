@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +21,7 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     }
 
     private val viewModel: EditNoteContract.ViewModel by viewModels {
-        EditNoteViewModelFactory(app.notesRepo, app.urlPreviewRepo)
+        EditNoteViewModelFactory(app.notesRepo, app.urlPreviewRepo, app.analytics)
     }
 
     private val binding by viewBinding(ActivityEditNoteBinding::bind)
@@ -77,7 +76,6 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
         return true
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun fillViews() {
         note = intent.getParcelableExtra(NOTE_EXTRA_KEY)
         note?.let { note ->

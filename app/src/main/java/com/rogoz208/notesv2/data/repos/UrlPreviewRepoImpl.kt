@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.data
+package com.rogoz208.notesv2.data.repos
 
 import android.os.Build
 import androidx.annotation.RequiresApi
