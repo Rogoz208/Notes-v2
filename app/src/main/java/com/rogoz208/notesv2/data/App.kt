@@ -6,11 +6,14 @@ import android.content.IntentFilter
 import com.rogoz208.notesv2.data.log.MyAnalytics
 import com.rogoz208.notesv2.data.log.NetworkStateReceiver
 import com.rogoz208.notesv2.data.repos.NotesRepoImpl
+import com.rogoz208.notesv2.data.repos.UrlPreviewRepoImpl
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
+import com.rogoz208.notesv2.domain.repos.UrlPreviewRepo
 
 class App : Application() {
     val notesRepo: NotesRepo by lazy { NotesRepoImpl() }
+    val urlPreviewRepo: UrlPreviewRepo by lazy { UrlPreviewRepoImpl() }
     val analytics: MyAnalytics by lazy { MyAnalytics(this) }
 
     private val networkReceiver by lazy { NetworkStateReceiver() }
