@@ -7,7 +7,6 @@ class EditNoteContract {
 
     interface ViewModel {
         val noteSavedLiveData: LiveData<Boolean>
-        val webPageLiveData: LiveData<String>
 
         fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?)
         fun onNoteDetailsChanged(noteDetails: String)

@@ -6,17 +6,14 @@ import androidx.lifecycle.ViewModel
 import com.rogoz208.notesv2.data.log.MyAnalytics
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
-import com.rogoz208.notesv2.domain.repos.UrlPreviewRepo
 
 class EditNoteViewModel(
     private val notesRepo: NotesRepo,
-    private val urlPreviewRepo: UrlPreviewRepo,
     private val analytics: MyAnalytics
 ) : ViewModel(), EditNoteContract.ViewModel {
     private var note: NoteEntity? = null
 
     override val noteSavedLiveData = MutableLiveData(false)
-    override val webPageLiveData = MutableLiveData<String>()
 
     override fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?) {
         if (note == null && (title != "" || detail != "")) {
@@ -42,15 +39,7 @@ class EditNoteViewModel(
     }
 
     override fun onNoteDetailsChanged(noteDetails: String) {
-        val url = extractUrl(noteDetails)
-        url?.let {
-            urlPreviewRepo.getWebPageAsync(url) {
-                webPageLiveData.postValue(it)
-            }
-        }
-        if (url == null) {
-            webPageLiveData.postValue(null)
-        }
+        // TODO
     }
 
     private fun extractUrl(input: String): String? {

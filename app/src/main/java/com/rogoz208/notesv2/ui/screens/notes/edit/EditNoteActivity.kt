@@ -21,7 +21,7 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     }
 
     private val viewModel: EditNoteContract.ViewModel by viewModels {
-        EditNoteViewModelFactory(app.notesRepo, app.urlPreviewRepo, app.analytics)
+        EditNoteViewModelFactory(app.notesRepo, app.analytics)
     }
 
     private val binding by viewBinding(ActivityEditNoteBinding::bind)
@@ -43,21 +43,6 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
                 val intent = Intent()
                 setResult(RESULT_OK, intent)
                 finish()
-            }
-        }
-
-        viewModel.webPageLiveData.observe(this) { webPage ->
-            webPage?.let {
-                binding.urlPreviewWebView.loadDataWithBaseURL(
-                    null,
-                    it,
-                    "text/html; charset=utf-8",
-                    "utf-8",
-                    null
-                )
-            }
-            if (webPage == null) {
-                binding.urlPreviewWebView.loadUrl("about:blank")
             }
         }
     }
