@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.app
 import com.rogoz208.notesv2.databinding.ActivityEditNoteBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
+import java.lang.StringBuilder
 
 class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     companion object {
@@ -35,6 +37,16 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
         initViewModel()
         initToolbar()
         fillViews()
+        setupListeners()
+    }
+
+    override fun onBackPressed() {
+        saveNote()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun initViewModel() {
@@ -50,15 +62,6 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     private fun initToolbar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
-    override fun onBackPressed() {
-        saveNote()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     private fun fillViews() {
@@ -81,6 +84,28 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
             }
 
         })
+    }
+
+    private fun setupListeners() {
+        binding.generateRandomActivityButton.setOnClickListener {
+            app.randomActivityRepo.getRandomActivityAsync(
+                onSuccess = {
+                    val sb = StringBuilder()
+                    runOnUiThread {
+                        sb.append(binding.detailEditText.text)
+                    }
+                    sb.append("\n- ${it.activity}")
+                    runOnUiThread {
+                        binding.detailEditText.setText(sb.toString())
+                    }
+                },
+                onError = {
+                    runOnUiThread {
+                        Toast.makeText(this, "Error ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
+        }
     }
 
     private fun saveNote() {
