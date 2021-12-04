@@ -1,5 +1,6 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rogoz208.notesv2.data.log.MyAnalytics
@@ -17,6 +18,7 @@ class EditNoteViewModel(
     override val noteSavedLiveData = MutableLiveData(false)
     override val randomActivityLiveData = MutableLiveData<String>()
     override val errorMessageLiveData = MutableLiveData<String>()
+    override val imageUrlLiveData = MutableLiveData<String>()
 
     override fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?) {
         if (note == null && (title != "" || detail != "")) {
@@ -49,5 +51,9 @@ class EditNoteViewModel(
             onError = { error ->
                 errorMessageLiveData.postValue(error.message)
             })
+    }
+
+    override fun onImageUrlChange(imageUrl: String) {
+        imageUrlLiveData.postValue(imageUrl)
     }
 }

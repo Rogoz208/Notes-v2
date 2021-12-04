@@ -9,8 +9,10 @@ class EditNoteContract {
         val noteSavedLiveData: LiveData<Boolean>
         val randomActivityLiveData: LiveData<String>
         val errorMessageLiveData: LiveData<String>
+        val imageUrlLiveData: LiveData<String>
 
         fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?)
         fun onGenerateRandomActivity()
+        fun onImageUrlChange(imageUrl: String)
     }
 }

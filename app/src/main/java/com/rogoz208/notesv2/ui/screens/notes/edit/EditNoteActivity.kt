@@ -3,11 +3,15 @@ package com.rogoz208.notesv2.ui.screens.notes.edit
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.app
 import com.rogoz208.notesv2.databinding.ActivityEditNoteBinding
@@ -59,12 +63,18 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
             if (binding.detailEditText.text.toString() != "") {
                 binding.detailEditText.append("\n- $randomActivity")
             } else {
-                binding.detailEditText.setText(randomActivity)
+                binding.detailEditText.setText("- $randomActivity")
             }
         }
 
         viewModel.errorMessageLiveData.observe(this) { errorMessage ->
             Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.imageUrlLiveData.observe(this) { imageUrl ->
+            Glide.with(this)
+                .load(imageUrl)
+                .into(binding.imagePreviewImageView)
         }
     }
 
@@ -79,12 +89,24 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
             binding.titleEditText.setText(note.title)
             binding.detailEditText.setText(note.detail)
         }
+        viewModel.onImageUrlChange(binding.imageUrlEditText.text.toString())
     }
 
     private fun setupListeners() {
         binding.generateRandomActivityButton.setOnClickListener {
             viewModel.onGenerateRandomActivity()
         }
+
+        binding.imageUrlEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.onImageUrlChange(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+
+        })
     }
 
     private fun saveNote() {

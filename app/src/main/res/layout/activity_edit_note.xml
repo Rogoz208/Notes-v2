@@ -39,6 +39,20 @@
         android:inputType="textMultiLine"
         android:textSize="@dimen/medium_text_size" />
 
+    <EditText
+        android:id="@+id/image_url_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter image URL"
+        android:text="https://media.springernature.com/full/springer-cms/rest/v1/img/18893370/v1/height/320"
+        android:textSize="@dimen/small_text_size" />
+
+    <ImageView
+        android:id="@+id/image_preview_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <Button
         android:id="@+id/generate_random_activity_button"
         android:layout_width="match_parent"
