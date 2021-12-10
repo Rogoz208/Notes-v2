@@ -5,10 +5,13 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.app
 import com.rogoz208.notesv2.databinding.ActivityEditNoteBinding
@@ -21,7 +24,7 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     }
 
     private val viewModel: EditNoteContract.ViewModel by viewModels {
-        EditNoteViewModelFactory(app.notesRepo, app.urlPreviewRepo, app.analytics)
+        EditNoteViewModelFactory(app.notesRepo, app.randomActivityRepo, app.analytics)
     }
 
     private val binding by viewBinding(ActivityEditNoteBinding::bind)
@@ -35,36 +38,7 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
         initViewModel()
         initToolbar()
         fillViews()
-    }
-
-    private fun initViewModel() {
-        viewModel.noteSavedLiveData.observe(this) { isNoteSaved ->
-            if (isNoteSaved) {
-                val intent = Intent()
-                setResult(RESULT_OK, intent)
-                finish()
-            }
-        }
-
-        viewModel.webPageLiveData.observe(this) { webPage ->
-            webPage?.let {
-                binding.urlPreviewWebView.loadDataWithBaseURL(
-                    null,
-                    it,
-                    "text/html; charset=utf-8",
-                    "utf-8",
-                    null
-                )
-            }
-            if (webPage == null) {
-                binding.urlPreviewWebView.loadUrl("about:blank")
-            }
-        }
-    }
-
-    private fun initToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setupListeners()
     }
 
     override fun onBackPressed() {
@@ -76,24 +50,61 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
         return true
     }
 
+    private fun initViewModel() {
+        viewModel.noteSavedLiveData.observe(this) { isNoteSaved ->
+            if (isNoteSaved) {
+                val intent = Intent()
+                setResult(RESULT_OK, intent)
+                finish()
+            }
+        }
+
+        viewModel.randomActivityLiveData.observe(this) { randomActivity ->
+            if (binding.detailEditText.text.toString() != "") {
+                binding.detailEditText.append("\n- $randomActivity")
+            } else {
+                binding.detailEditText.setText("- $randomActivity")
+            }
+        }
+
+        viewModel.errorMessageLiveData.observe(this) { errorMessage ->
+            Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.imageUrlLiveData.observe(this) { imageUrl ->
+            Glide.with(this)
+                .load(imageUrl)
+                .into(binding.imagePreviewImageView)
+        }
+    }
+
+    private fun initToolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
     private fun fillViews() {
         note = intent.getParcelableExtra(NOTE_EXTRA_KEY)
         note?.let { note ->
             binding.titleEditText.setText(note.title)
             binding.detailEditText.setText(note.detail)
-            viewModel.onNoteDetailsChanged(note.detail)
+        }
+        viewModel.onImageUrlChange(binding.imageUrlEditText.text.toString())
+    }
+
+    private fun setupListeners() {
+        binding.generateRandomActivityButton.setOnClickListener {
+            viewModel.onGenerateRandomActivity()
         }
 
-        binding.detailEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+        binding.imageUrlEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.onNoteDetailsChanged(s.toString())
+                viewModel.onImageUrlChange(s.toString())
             }
 
-            override fun afterTextChanged(s: Editable?) {
-            }
+            override fun afterTextChanged(s: Editable?) {}
 
         })
     }

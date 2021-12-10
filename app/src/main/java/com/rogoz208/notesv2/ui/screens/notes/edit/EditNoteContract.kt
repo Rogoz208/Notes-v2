@@ -7,9 +7,12 @@ class EditNoteContract {
 
     interface ViewModel {
         val noteSavedLiveData: LiveData<Boolean>
-        val webPageLiveData: LiveData<String>
+        val randomActivityLiveData: LiveData<String>
+        val errorMessageLiveData: LiveData<String>
+        val imageUrlLiveData: LiveData<String>
 
         fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?)
-        fun onNoteDetailsChanged(noteDetails: String)
+        fun onGenerateRandomActivity()
+        fun onImageUrlChange(imageUrl: String)
     }
 }
