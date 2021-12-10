@@ -5,7 +5,7 @@ import com.rogoz208.notesv2.domain.repos.NotesRepo
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NotesRepoImpl : NotesRepo {
+class MemoryCacheNotesRepoImpl : NotesRepo {
     private val cache: MutableList<NoteEntity> = mutableListOf()
 
     override val notes: List<NoteEntity>

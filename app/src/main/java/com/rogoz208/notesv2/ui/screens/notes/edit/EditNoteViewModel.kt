@@ -1,6 +1,5 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rogoz208.notesv2.data.log.MyAnalytics
