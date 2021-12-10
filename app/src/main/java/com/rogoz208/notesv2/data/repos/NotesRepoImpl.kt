@@ -16,11 +16,8 @@ class NotesRepoImpl : NotesRepo {
     override fun createNote(note: NoteEntity): String {
         val newId = UUID.randomUUID().toString()
         val creationDate = Calendar.getInstance().timeInMillis
-        note.uid = newId
-        note.creationDate = creationDate
 
-//        cache.add(note.copy(uid = newId, creationDate = creationDate))
-        cache.add(note)
+        cache.add(note.copy(uid = newId, creationDate = creationDate))
         return newId
     }
 
@@ -36,9 +33,7 @@ class NotesRepoImpl : NotesRepo {
 
     override fun updateNote(uid: String, note: NoteEntity, position: Int): Boolean {
         deleteNote(uid)
-        note.uid = uid
-//        cache.add(position, note.copy(uid = uid))
-        cache.add(position, note)
+        cache.add(position, note.copy(uid = uid))
         return true
     }
 }

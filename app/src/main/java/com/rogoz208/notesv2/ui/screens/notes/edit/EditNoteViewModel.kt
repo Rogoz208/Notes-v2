@@ -30,9 +30,11 @@ class EditNoteViewModel(
         } else {
             note?.let {
                 if (title != "" || detail != "") {
-                    it.title = title
-                    it.detail = detail
-                    notesRepo.updateNote(it.uid.toString(), it, position!!)
+                    notesRepo.updateNote(
+                        it.uid.toString(),
+                        it.copy(title = title, detail = detail),
+                        position!!
+                    )
                     analytics.logEvent("Note \"${it.title}\" is saved")
                 } else {
                     notesRepo.deleteNote(it.uid.toString())

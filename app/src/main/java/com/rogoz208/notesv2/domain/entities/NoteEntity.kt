@@ -4,10 +4,8 @@ import android.os.Parcelable
 
 @kotlinx.parcelize.Parcelize
 data class NoteEntity(
-    var uid: String?,
-    var title: String,
-    var detail: String,
-    var creationDate: Long?
+    val uid: String?,
+    val title: String,
+    val detail: String,
+    val creationDate: Long?
 ) : Parcelable
-
-// TODO: var to val (lesson-8 - 00:45:17)
