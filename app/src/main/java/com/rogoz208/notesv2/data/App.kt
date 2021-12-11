@@ -7,12 +7,13 @@ import com.rogoz208.notesv2.data.log.MyAnalytics
 import com.rogoz208.notesv2.data.log.NetworkStateReceiver
 import com.rogoz208.notesv2.data.repos.MemoryCacheNotesRepoImpl
 import com.rogoz208.notesv2.data.repos.RetrofitRandomActivityRepoImpl
+import com.rogoz208.notesv2.data.repos.RoomNotesRepoImpl
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 import com.rogoz208.notesv2.domain.repos.RandomActivityRepo
 
 class App : Application() {
-    val notesRepo: NotesRepo by lazy { MemoryCacheNotesRepoImpl() }
+    val notesRepo: NotesRepo by lazy { RoomNotesRepoImpl(this) }
     val randomActivityRepo: RandomActivityRepo by lazy { RetrofitRandomActivityRepoImpl() }
     val analytics: MyAnalytics by lazy { MyAnalytics(this) }
 
@@ -22,8 +23,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        fillRepoByTestValues()
+        Thread {
+//            fillRepoByTestValues()
 //        registerNetworkReceiver()
+        }.start()
     }
 
     private fun registerNetworkReceiver() {
@@ -35,7 +38,7 @@ class App : Application() {
         for (i in 1..20) {
             notesRepo.createNote(
                 NoteEntity(
-                    null,
+                    "",
                     "Заметка $i",
                     "Lorem ipsum dolor sit amet, consectetur " +
                             "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
