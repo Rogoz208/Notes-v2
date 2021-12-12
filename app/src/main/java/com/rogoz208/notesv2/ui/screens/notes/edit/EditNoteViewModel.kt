@@ -20,30 +20,28 @@ class EditNoteViewModel(
     override val imageUrlLiveData = MutableLiveData<String>()
 
     override fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?) {
-        Thread{
-            if (note == null && (title != "" || detail != "")) {
-                this.note = NoteEntity("", title, detail, null)
-                this.note?.let {
-                    notesRepo.createNote(it)
-                    analytics.logEvent("Note \"${it.title}\" is created")
-                }
-            } else {
-                note?.let {
-                    if (title != "" || detail != "") {
-                        notesRepo.updateNote(
-                            it.uid.toString(),
-                            it.copy(title = title, detail = detail),
-                            position!!
-                        )
-                        analytics.logEvent("Note \"${it.title}\" is saved")
-                    } else {
-                        notesRepo.deleteNote(it.uid.toString())
-                        analytics.logEvent("Note \"${it.title}\" is deleted")
-                    }
+        if (note == null && (title != "" || detail != "")) {
+            this.note = NoteEntity("", title, detail, null)
+            this.note?.let {
+                notesRepo.createNote(it)
+                analytics.logEvent("Note \"${it.title}\" is created")
+            }
+        } else {
+            note?.let {
+                if (title != "" || detail != "") {
+                    notesRepo.updateNote(
+                        it.uid,
+                        it.copy(title = title, detail = detail),
+                        position!!
+                    )
+                    analytics.logEvent("Note \"${it.title}\" is saved")
+                } else {
+                    notesRepo.deleteNote(it.uid)
+                    analytics.logEvent("Note \"${it.title}\" is deleted")
                 }
             }
-            noteSavedLiveData.postValue(true)
-        }.start()
+        }
+        noteSavedLiveData.postValue(true)
     }
 
     override fun onGenerateRandomActivity() {

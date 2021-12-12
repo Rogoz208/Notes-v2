@@ -3,6 +3,7 @@ package com.rogoz208.notesv2.data
 import android.app.Application
 import android.content.Context
 import android.content.IntentFilter
+import android.util.Log
 import com.rogoz208.notesv2.data.log.MyAnalytics
 import com.rogoz208.notesv2.data.log.NetworkStateReceiver
 import com.rogoz208.notesv2.data.repos.MemoryCacheNotesRepoImpl
@@ -23,15 +24,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Thread {
 //            fillRepoByTestValues()
-//        registerNetworkReceiver()
-        }.start()
-    }
-
-    private fun registerNetworkReceiver() {
-        intentFilterNetwork.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION)
-        registerReceiver(networkReceiver, intentFilterNetwork)
     }
 
     private fun fillRepoByTestValues() {

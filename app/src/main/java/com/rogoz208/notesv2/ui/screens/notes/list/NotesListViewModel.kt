@@ -16,29 +16,27 @@ class NotesListViewModel(
     override val editingNotePositionLiveData = MutableLiveData<Int>()
 
     init {
-        Thread {
-            notesListLiveData.postValue(notesRepo.notes)
-        }.start()
+        notesRepo.getNotes { notes ->
+            notesListLiveData.postValue(notes)
+        }
     }
 
     override fun onEditNote(note: NoteEntity, position: Int) {
-        Thread{
-            editingNotePositionLiveData.postValue(position)
-            editingNoteLiveData.postValue(note)
-        }.start()
+        editingNotePositionLiveData.postValue(position)
+        editingNoteLiveData.postValue(note)
     }
 
     override fun onDeleteNote(note: NoteEntity) {
-        Thread{
-            notesRepo.deleteNote(note.uid.toString())
-            analytics.logEvent("Note \"${note.title}\" is deleted")
-            notesListLiveData.postValue(notesRepo.notes)
-        }.start()
+        notesRepo.deleteNote(note.uid)
+        analytics.logEvent("Note \"${note.title}\" is deleted")
+        notesRepo.getNotes { notes ->
+            notesListLiveData.postValue(notes)
+        }
     }
 
     override fun onNotesUpdated() {
-        Thread{
-            notesListLiveData.postValue(notesRepo.notes)
-        }.start()
+        notesRepo.getNotes { notes ->
+            notesListLiveData.postValue(notes)
+        }
     }
 }

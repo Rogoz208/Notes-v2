@@ -4,12 +4,12 @@ import com.rogoz208.notesv2.domain.entities.NoteEntity
 
 interface NotesRepo {
 
-    val notes: List<NoteEntity>
+    fun getNotes(callback: (List<NoteEntity>) -> Unit)
 
-    fun createNote(note: NoteEntity): String
+    fun createNote(note: NoteEntity)
 
-    fun deleteNote(uid: String): Boolean
+    fun deleteNote(uid: String)
 
-    fun updateNote(uid: String, note: NoteEntity, position: Int): Boolean
+    fun updateNote(uid: String, note: NoteEntity, position: Int)
 
 }

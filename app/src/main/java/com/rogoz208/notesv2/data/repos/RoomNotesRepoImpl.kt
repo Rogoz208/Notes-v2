@@ -17,29 +17,32 @@ class RoomNotesRepoImpl(context: Context) : NotesRepo {
         DB_PATH
     ).build().noteDao()
 
-    override val notes: List<NoteEntity>
-        get() = noteDao.getNotes()
-
-    override fun createNote(note: NoteEntity): String {
-        val newId = UUID.randomUUID().toString()
-        noteDao.add(note.copy(uid = newId))
-        return newId
+    override fun getNotes(callback: (List<NoteEntity>) -> Unit) {
+        Thread {
+            callback(noteDao.getNotes())
+        }.start()
     }
 
-    override fun deleteNote(uid: String): Boolean {
-        notes.forEach { note ->
-            when (note.uid) {
-                uid -> {
-                    noteDao.delete(note)
-                    return true
+    override fun createNote(note: NoteEntity) {
+        Thread {
+            val newId = UUID.randomUUID().toString()
+            noteDao.add(note.copy(uid = newId))
+        }.start()
+    }
+
+    override fun deleteNote(uid: String) {
+        getNotes { notes ->
+            notes.forEach { note ->
+                when (note.uid) {
+                    uid -> noteDao.delete(note)
                 }
             }
         }
-        return false
     }
 
-    override fun updateNote(uid: String, note: NoteEntity, position: Int): Boolean {
-        noteDao.update(note)
-        return true
+    override fun updateNote(uid: String, note: NoteEntity, position: Int) {
+        Thread {
+            noteDao.update(note)
+        }.start()
     }
 }

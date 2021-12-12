@@ -8,32 +8,27 @@ import kotlin.collections.ArrayList
 class MemoryCacheNotesRepoImpl : NotesRepo {
     private val cache: MutableList<NoteEntity> = mutableListOf()
 
-    override val notes: List<NoteEntity>
-        get() {
-            return ArrayList<NoteEntity>(cache)
-        }
+    override fun getNotes(callback: (List<NoteEntity>) -> Unit) {
+        callback(ArrayList<NoteEntity>(cache))
+    }
 
-    override fun createNote(note: NoteEntity): String {
+    override fun createNote(note: NoteEntity) {
         val newId = UUID.randomUUID().toString()
         val creationDate = Calendar.getInstance().timeInMillis
 
         cache.add(note.copy(uid = newId, creationDate = creationDate))
-        return newId
     }
 
-    override fun deleteNote(uid: String): Boolean {
+    override fun deleteNote(uid: String) {
         for (i in cache.indices) {
             if (cache[i].uid == uid) {
                 cache.removeAt(i)
-                return true
             }
         }
-        return false
     }
 
-    override fun updateNote(uid: String, note: NoteEntity, position: Int): Boolean {
+    override fun updateNote(uid: String, note: NoteEntity, position: Int) {
         deleteNote(uid)
         cache.add(position, note.copy(uid = uid))
-        return true
     }
 }
