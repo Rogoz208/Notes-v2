@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.data.repos
+package com.rogoz208.notesv2.data.room
 
 import android.content.Context
 import androidx.room.Room

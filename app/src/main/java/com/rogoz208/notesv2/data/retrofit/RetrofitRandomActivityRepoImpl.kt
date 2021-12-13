@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.data.repos
+package com.rogoz208.notesv2.data.retrofit
 
 import com.rogoz208.notesv2.data.retrofit.RandomActivityApi
 import com.rogoz208.notesv2.domain.entities.RandomActivityEntity
