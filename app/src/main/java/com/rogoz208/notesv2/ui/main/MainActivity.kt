@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val binding by viewBinding(ActivityMainBinding::bind)
 
-    private val preferences: SharedPreferences by lazy { getPreferences(MODE_PRIVATE) }
+    private val preferences: SharedPreferences by lazy { app.sharedPreferences }
     private var isFirstStart: Boolean = true
 
     private val fragmentsMap = mapOf(
