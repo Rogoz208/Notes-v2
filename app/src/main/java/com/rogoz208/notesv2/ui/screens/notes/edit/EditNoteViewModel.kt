@@ -1,6 +1,5 @@
 package com.rogoz208.notesv2.ui.screens.notes.edit
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rogoz208.notesv2.data.log.MyAnalytics
@@ -22,7 +21,7 @@ class EditNoteViewModel(
 
     override fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?) {
         if (note == null && (title != "" || detail != "")) {
-            this.note = NoteEntity(null, title, detail, null)
+            this.note = NoteEntity("", title, detail, null)
             this.note?.let {
                 notesRepo.createNote(it)
                 analytics.logEvent("Note \"${it.title}\" is created")
@@ -30,12 +29,14 @@ class EditNoteViewModel(
         } else {
             note?.let {
                 if (title != "" || detail != "") {
-                    it.title = title
-                    it.detail = detail
-                    notesRepo.updateNote(it.uid.toString(), it, position!!)
+                    notesRepo.updateNote(
+                        it.uid,
+                        it.copy(title = title, detail = detail),
+                        position!!
+                    )
                     analytics.logEvent("Note \"${it.title}\" is saved")
                 } else {
-                    notesRepo.deleteNote(it.uid.toString())
+                    notesRepo.deleteNote(it.uid)
                     analytics.logEvent("Note \"${it.title}\" is deleted")
                 }
             }
