@@ -21,10 +21,16 @@ class App : Application() {
     private val networkReceiver by lazy { NetworkStateReceiver() }
     private val intentFilterNetwork by lazy { IntentFilter() }
 
+    private var isFirstStart = true
+
     override fun onCreate() {
         super.onCreate()
 
-//            fillRepoByTestValues()
+        if (isFirstStart) {
+            fillRepoByTestValues()
+            isFirstStart = false
+        }
+
     }
 
     private fun fillRepoByTestValues() {
