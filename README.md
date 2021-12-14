@@ -23,12 +23,15 @@ This is a simple notes app for Android
 - logging in file
 - network status
 
-### branch: lesson-7 -> dev(04.12.2021)
+### branch: lesson-7 -> dev (04.12.2021)
 - random activity generator (Bored api)
 - image preview (Glide)
 
-### branch: lessin-8 (13.12.2021)
+### branch: lesson-8 -> dev (13.12.2021)
 - room db
+
+### branch: lesson-9
+- request location permission 
 
 ## Fixes
 
