@@ -1,6 +1,5 @@
 package com.rogoz208.notesv2.data.retrofit
 
-import com.rogoz208.notesv2.data.retrofit.RandomActivityApi
 import com.rogoz208.notesv2.domain.entities.RandomActivityEntity
 import com.rogoz208.notesv2.domain.repos.RandomActivityRepo
 import retrofit2.Call

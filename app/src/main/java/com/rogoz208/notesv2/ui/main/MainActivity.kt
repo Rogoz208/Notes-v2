@@ -1,9 +1,12 @@
 package com.rogoz208.notesv2.ui.main
 
+import android.Manifest
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.PermissionChecker
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.app
@@ -14,6 +17,7 @@ import com.rogoz208.notesv2.ui.screens.reminders.RemindersFragment
 import com.rogoz208.notesv2.ui.screens.settings.SettingsFragment
 
 private const val IS_FIRST_START_PREF_KEY = "IS_FIRST_START_PREF_KEY"
+private const val LOCATION_PERMISSION_REQUEST_CODE = 666
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -21,6 +25,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val preferences: SharedPreferences by lazy { app.sharedPreferences }
     private var isFirstStart: Boolean = true
+    private val targetPermission = Manifest.permission.ACCESS_FINE_LOCATION
 
     private val fragmentsMap = mapOf(
         R.id.bottom_menu_item_notes_screen to NotesListFragment(),
@@ -34,6 +39,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         fillRepoByTestValues()
         setSupportActionBar(binding.toolbar)
         initBottomNavigation()
+        checkPermissions()
         openDefaultScreen(savedInstanceState)
     }
 
@@ -55,6 +61,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 )
                 .commit()
             true
+        }
+    }
+
+    private fun checkPermissions() {
+        val permissionResult = checkSelfPermission(targetPermission)
+        val hasPermission = permissionResult == PermissionChecker.PERMISSION_GRANTED
+        if (!hasPermission && shouldShowRequestPermissionRationale(targetPermission)) {
+            requestPermissions(arrayOf(targetPermission), LOCATION_PERMISSION_REQUEST_CODE)
         }
     }
 

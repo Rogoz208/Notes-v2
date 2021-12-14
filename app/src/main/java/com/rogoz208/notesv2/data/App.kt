@@ -24,6 +24,7 @@ class App : Application() {
         ).build()
     }
     private val noteDao: NoteDao by lazy { noteDb.noteDao() }
+
     val notesRepo: NotesRepo by lazy { RoomNotesRepoImpl(noteDao) }
     val randomActivityRepo: RandomActivityRepo by lazy { RetrofitRandomActivityRepoImpl() }
     val analytics: MyAnalytics by lazy { MyAnalytics(this) }
