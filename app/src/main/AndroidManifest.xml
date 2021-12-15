@@ -3,7 +3,9 @@
     package="com.rogoz208.notesv2">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".data.App"
@@ -16,8 +18,7 @@
         <receiver
             android:name=".data.log.NetworkStateReceiver"
             android:enabled="true"
-            android:exported="true">
-        </receiver>
+            android:exported="true" />
 
         <activity
             android:name=".ui.screens.notes.edit.EditNoteActivity"
