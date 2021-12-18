@@ -1,6 +1,7 @@
 package com.rogoz208.notesv2.util
 
 import android.content.Context
+import android.location.Address
 import android.location.Geocoder
 import android.os.Handler
 import android.os.Looper
@@ -16,13 +17,16 @@ class AsyncGeocoder(private val context: Context) {
         callback: (String) -> Unit
     ) {
         Thread {
-            val address = try {
-                Geocoder(context).getFromLocation(latitude, longitude, maxResults).firstOrNull()
+            val address: String = try {
+                val addresses: List<Address> =
+                    Geocoder(context).getFromLocation(latitude, longitude, maxResults)
+                addresses[0].getAddressLine(0)
             } catch (e: Exception) {
                 Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                e.message.toString()
             }
             handler.post {
-                callback.invoke(address.toString())
+                callback.invoke(address)
             }
         }.start()
     }

@@ -73,7 +73,8 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
             Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.showProgressBarLiveData.observe(this) { show ->
+        viewModel.showProgressBarLiveData.observe(this) { show: Boolean ->
+            binding.titleEditText.isEnabled = !show
             binding.detailEditText.isVisible = !show
             binding.progressBar.isVisible = show
         }
