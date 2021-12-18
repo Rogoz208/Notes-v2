@@ -10,6 +10,9 @@ const val NOTE_COLUMN_UID = "uid"
 const val NOTE_COLUMN_TITLE = "title"
 const val NOTE_COLUMN_DETAIL = "detail"
 const val NOTE_COLUMN_CREATION_DATE = "creationDate"
+const val NOTE_COLUMN_LATITUDE = "latitude"
+const val NOTE_COLUMN_LONGITUDE = "longitude"
+const val NOTE_COLUMN_ADDRESS = "address"
 
 @Entity(tableName = NOTE_TABLE)
 @kotlinx.parcelize.Parcelize
@@ -26,6 +29,15 @@ data class NoteEntity(
     val detail: String,
 
     @ColumnInfo(name = NOTE_COLUMN_CREATION_DATE)
-    val creationDate: Long?
+    val creationDate: Long?,
+
+    @ColumnInfo(name = NOTE_COLUMN_LATITUDE)
+    val latitude: Double?,
+
+    @ColumnInfo(name = NOTE_COLUMN_LONGITUDE)
+    val longitude: Double?,
+
+    @ColumnInfo(name = NOTE_COLUMN_ADDRESS)
+    val address: String?
 
 ) : Parcelable

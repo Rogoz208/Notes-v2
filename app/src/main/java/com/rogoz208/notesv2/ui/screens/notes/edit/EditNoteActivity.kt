@@ -3,14 +3,12 @@ package com.rogoz208.notesv2.ui.screens.notes.edit
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.Glide
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.app
 import com.rogoz208.notesv2.databinding.ActivityEditNoteBinding
@@ -23,7 +21,12 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
     }
 
     private val viewModel: EditNoteContract.ViewModel by viewModels {
-        EditNoteViewModelFactory(app.notesRepo, app.randomActivityRepo, app.analytics)
+        EditNoteViewModelFactory(
+            app.notesRepo,
+            app.randomActivityRepo,
+            app.noteLocationRepo,
+            app.analytics
+        )
     }
 
     private val binding by viewBinding(ActivityEditNoteBinding::bind)
@@ -70,10 +73,9 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
             Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.imageUrlLiveData.observe(this) { imageUrl ->
-            Glide.with(this)
-                .load(imageUrl)
-                .into(binding.imagePreviewImageView)
+        viewModel.showProgressBarLiveData.observe(this) { show ->
+            binding.detailEditText.isVisible = !show
+            binding.progressBar.isVisible = show
         }
     }
 
@@ -87,25 +89,15 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
         note?.let { note ->
             binding.titleEditText.setText(note.title)
             binding.detailEditText.setText(note.detail)
+            binding.locationTextView.text =
+                "[${note.latitude.toString()} ${note.longitude.toString()}]\n${note.address}"
         }
-        viewModel.onImageUrlChange(binding.imageUrlEditText.text.toString())
     }
 
     private fun setupListeners() {
         binding.generateRandomActivityButton.setOnClickListener {
             viewModel.onGenerateRandomActivity()
         }
-
-        binding.imageUrlEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.onImageUrlChange(s.toString())
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-
-        })
     }
 
     private fun saveNote() {

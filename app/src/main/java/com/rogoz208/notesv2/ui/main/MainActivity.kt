@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val preferences: SharedPreferences by lazy { app.sharedPreferences }
     private var isFirstStart: Boolean = true
-    private val targetPermission = Manifest.permission.ACCESS_FINE_LOCATION
+
+    private val locationPermission = Manifest.permission.ACCESS_FINE_LOCATION
 
     private val fragmentsMap = mapOf(
         R.id.bottom_menu_item_notes_screen to NotesListFragment(),
@@ -65,9 +66,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun checkPermissions() {
-        val permissionResult = checkSelfPermission(targetPermission)
+        val permissionResult = checkSelfPermission(locationPermission)
         val hasPermission = permissionResult == PermissionChecker.PERMISSION_GRANTED
-        if (!hasPermission && shouldShowRequestPermissionRationale(targetPermission)) {
+        if (!hasPermission && shouldShowRequestPermissionRationale(locationPermission)) {
             requestPermissions()
         }
     }
@@ -82,8 +83,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         )
     }
 
-    fun givePermission(){
-        requestPermissions(arrayOf(targetPermission), LOCATION_PERMISSION_REQUEST_CODE)
+    fun givePermission() {
+        requestPermissions(arrayOf(locationPermission), LOCATION_PERMISSION_REQUEST_CODE)
     }
 
     private fun openDefaultScreen(savedInstanceState: Bundle?) {
@@ -102,6 +103,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                         "Заметка $i",
                         "Lorem ipsum dolor sit amet, consectetur " +
                                 "adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        null,
+                        null,
+                        null,
                         null
                     )
                 )
