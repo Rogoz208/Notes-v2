@@ -9,6 +9,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.data.app
 import com.rogoz208.notesv2.databinding.ActivityEditNoteBinding
@@ -39,6 +44,7 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
 
         initViewModel()
         initToolbar()
+        initMap()
         fillViews()
         setupListeners()
     }
@@ -112,5 +118,25 @@ class EditNoteActivity : AppCompatActivity(R.layout.activity_edit_note) {
             binding.detailEditText.text.toString(),
             position
         )
+    }
+
+    private fun initMap() {
+        registerMapCallback { googleMap ->
+            var coordinates: LatLng? = null
+            note?.let {
+                if (it.latitude != null && it.longitude != null) {
+                    coordinates = LatLng(it.latitude.toDouble(), it.longitude.toDouble())
+                }
+            }
+            coordinates?.let {
+                googleMap.addMarker(MarkerOptions().position(it))
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 10.0f))
+            }
+        }
+    }
+
+    private fun registerMapCallback(callback: OnMapReadyCallback) {
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
     }
 }
