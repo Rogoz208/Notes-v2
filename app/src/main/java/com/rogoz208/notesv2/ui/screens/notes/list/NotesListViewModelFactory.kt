@@ -8,8 +8,7 @@ import com.rogoz208.notesv2.domain.repos.NotesRepo
 class NotesListViewModelFactory(
     private val notesRepo: NotesRepo,
     private val analytics: MyAnalytics
-) :
-    ViewModelProvider.NewInstanceFactory() {
+) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return NotesListViewModel(notesRepo, analytics) as T

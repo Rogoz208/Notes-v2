@@ -16,9 +16,7 @@ class NotesListViewModel(
     override val editingNotePositionLiveData = MutableLiveData<Int>()
 
     init {
-        notesRepo.getNotes { notes ->
-            notesListLiveData.postValue(notes)
-        }
+        updateNotes()
     }
 
     override fun onEditNote(note: NoteEntity, position: Int) {
@@ -29,12 +27,14 @@ class NotesListViewModel(
     override fun onDeleteNote(note: NoteEntity) {
         notesRepo.deleteNote(note.uid)
         analytics.logEvent("Note \"${note.title}\" is deleted")
-        notesRepo.getNotes { notes ->
-            notesListLiveData.postValue(notes)
-        }
+        updateNotes()
     }
 
     override fun onNotesUpdated() {
+        updateNotes()
+    }
+
+    private fun updateNotes() {
         notesRepo.getNotes { notes ->
             notesListLiveData.postValue(notes)
         }
