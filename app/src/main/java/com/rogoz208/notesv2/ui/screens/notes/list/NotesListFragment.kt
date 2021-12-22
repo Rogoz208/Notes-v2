@@ -20,7 +20,7 @@ import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.ui.screens.notes.edit.EditNoteActivity
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesAdapter
 import com.rogoz208.notesv2.ui.screens.notes.list.recycler.NotesDiffCallback
-import com.rogoz208.notesv2.ui.screens.notes.list.recycler.OnItemClickListener
+import com.rogoz208.notesv2.ui.screens.notes.list.recycler.OnNoteItemClickListener
 
 class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     private val binding by viewBinding(FragmentNotesListBinding::bind)
@@ -56,7 +56,7 @@ class NotesListFragment : Fragment(R.layout.fragment_notes_list) {
     }
 
     private fun initRecyclerView() {
-        adapter.setOnItemClickListener(object : OnItemClickListener {
+        adapter.setOnItemClickListener(object : OnNoteItemClickListener {
             override fun onItemClick(item: NoteEntity, position: Int) {
                 viewModel.onEditNote(item, position)
             }

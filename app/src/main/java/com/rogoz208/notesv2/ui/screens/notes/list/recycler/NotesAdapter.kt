@@ -8,7 +8,7 @@ class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
     var data: List<NoteEntity> = ArrayList()
         get() = ArrayList(field)
 
-    private var clickListener: OnItemClickListener? = null
+    private var clickListener: OnNoteItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(parent, clickListener!!)
@@ -26,7 +26,7 @@ class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
         return data[position]
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
+    fun setOnItemClickListener(listener: OnNoteItemClickListener) {
         clickListener = listener
     }
 }
