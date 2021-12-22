@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.data.room
+package com.rogoz208.notesv2.data.room.notes
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

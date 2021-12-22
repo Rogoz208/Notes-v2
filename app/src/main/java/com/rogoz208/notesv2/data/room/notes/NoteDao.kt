@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.data.room
+package com.rogoz208.notesv2.data.room.notes
 
 import androidx.room.*
 import com.rogoz208.notesv2.domain.entities.NOTE_TABLE
