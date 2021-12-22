@@ -12,7 +12,7 @@ import com.rogoz208.notesv2.data.app
 import com.rogoz208.notesv2.databinding.ActivityMainBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.ui.screens.notes.list.NotesListFragment
-import com.rogoz208.notesv2.ui.screens.reminders.RemindersFragment
+import com.rogoz208.notesv2.ui.screens.reminders.list.RemindersListFragment
 import com.rogoz208.notesv2.ui.screens.settings.SettingsFragment
 
 private const val IS_FIRST_START_PREF_KEY = "IS_FIRST_START_PREF_KEY"
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val fragmentsMap = mapOf(
         R.id.bottom_menu_item_notes_screen to NotesListFragment(),
-        R.id.bottom_menu_item_reminders_screen to RemindersFragment(),
+        R.id.bottom_menu_item_reminders_screen to RemindersListFragment(),
         R.id.bottom_menu_item_settings_screen to SettingsFragment(),
     )
 
