@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.rogoz208.notesv2.data.log.MyAnalytics
+import com.rogoz208.notesv2.data.repos.NoteLocationRepoImpl
 import com.rogoz208.notesv2.data.retrofit.RetrofitRandomActivityRepoImpl
 import com.rogoz208.notesv2.data.room.NoteDao
 import com.rogoz208.notesv2.data.room.NoteRoomDb
 import com.rogoz208.notesv2.data.room.RoomNotesRepoImpl
+import com.rogoz208.notesv2.domain.repos.NoteLocationRepo
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 import com.rogoz208.notesv2.domain.repos.RandomActivityRepo
 
@@ -27,6 +29,7 @@ class App : Application() {
 
     val notesRepo: NotesRepo by lazy { RoomNotesRepoImpl(noteDao) }
     val randomActivityRepo: RandomActivityRepo by lazy { RetrofitRandomActivityRepoImpl() }
+    val noteLocationRepo: NoteLocationRepo by lazy { NoteLocationRepoImpl(this) }
     val analytics: MyAnalytics by lazy { MyAnalytics(this) }
     val sharedPreferences: SharedPreferences by lazy {
         getSharedPreferences(
