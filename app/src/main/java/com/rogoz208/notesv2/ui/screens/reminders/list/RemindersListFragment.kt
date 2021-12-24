@@ -1,5 +1,6 @@
 package com.rogoz208.notesv2.ui.screens.reminders.list
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
@@ -39,6 +40,12 @@ class RemindersListFragment : Fragment(R.layout.fragment_reminders_list) {
         initViewModel()
         initRecyclerView()
         initFloatingActionButton()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            viewModel.onRemindersUpdated()
+        }
     }
 
     private fun initViewModel() {

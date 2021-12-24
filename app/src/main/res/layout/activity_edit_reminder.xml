@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context=".ui.screens.reminders.edit.EditReminderActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="8dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/app_name" />
+
     <EditText
         android:id="@+id/title_edit_text"
         android:layout_width="match_parent"

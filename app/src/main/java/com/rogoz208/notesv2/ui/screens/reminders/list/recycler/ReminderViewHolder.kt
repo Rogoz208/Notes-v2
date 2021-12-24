@@ -7,6 +7,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.databinding.ItemReminderViewHolderBinding
 import com.rogoz208.notesv2.domain.entities.ReminderEntity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ReminderViewHolder(
     parent: ViewGroup,
@@ -19,7 +21,9 @@ class ReminderViewHolder(
     fun bind(reminder: ReminderEntity) {
         binding.titleTextView.text = reminder.title
         binding.detailTextView.text = reminder.detail
-        binding.remindTimeTextView.text = reminder.remindTime.toString()
+        val date = Date(reminder.remindTime)
+        val dateFormat = SimpleDateFormat("dd.MM.y HH:mm", Locale.getDefault())
+        binding.remindTimeTextView.text = dateFormat.format(date)
         itemView.setOnClickListener {
             clickListener.onItemClick(reminder, this.layoutPosition)
         }
