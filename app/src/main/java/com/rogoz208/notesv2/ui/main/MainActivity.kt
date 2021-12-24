@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationChannelCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.PermissionChecker
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
@@ -18,6 +20,7 @@ import com.rogoz208.notesv2.ui.screens.settings.SettingsFragment
 private const val IS_FIRST_START_PREF_KEY = "IS_FIRST_START_PREF_KEY"
 private const val REQUEST_LOCATION_PERMISSION_DIALOG_FRAGMENT_TAG = "REQUEST_LOCATION_PERMISSION"
 private const val LOCATION_PERMISSION_REQUEST_CODE = 666
+const val REMINDERS_CHANNEL_ID = "REMINDERS_CHANNEL_ID"
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -38,11 +41,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         fillRepoByTestValues()
+        createChannelsOnStart()
         setSupportActionBar(binding.toolbar)
         initBottomNavigation()
         checkPermissions()
         openDefaultScreen(savedInstanceState)
     }
+
 
     override fun onStop() {
         preferences.edit().let {
@@ -50,6 +55,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             it.commit()
         }
         super.onStop()
+    }
+
+    private fun createChannelsOnStart() {
+        val channel = NotificationChannelCompat.Builder(
+            REMINDERS_CHANNEL_ID,
+            NotificationManagerCompat.IMPORTANCE_DEFAULT
+        )
+            .setName("Reminders")
+            .build()
+        val notificationManager = NotificationManagerCompat.from(this)
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun initBottomNavigation() {

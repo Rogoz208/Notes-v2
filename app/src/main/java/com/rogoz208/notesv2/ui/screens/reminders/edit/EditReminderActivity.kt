@@ -1,7 +1,9 @@
 package com.rogoz208.notesv2.ui.screens.reminders.edit
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
@@ -16,6 +18,9 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.rogoz208.notesv2.R
+import com.rogoz208.notesv2.data.NOTIFICATION_CONTENT_EXTRA
+import com.rogoz208.notesv2.data.NOTIFICATION_TITLE_EXTRA
+import com.rogoz208.notesv2.data.ReminderBroadcastReceiver
 import com.rogoz208.notesv2.data.app
 import com.rogoz208.notesv2.databinding.ActivityEditReminderBinding
 import com.rogoz208.notesv2.domain.entities.ReminderEntity
@@ -56,12 +61,25 @@ class EditReminderActivity : AppCompatActivity(R.layout.activity_edit_reminder) 
 
     private fun initViewModel() {
         viewModel.reminderSavedLiveData.observe(this) { isReminderSaved ->
+            viewModel.reminderEntityLiveData.value?.let {
+                createReminderNotificationAlarm(it)
+            }
             if (isReminderSaved) {
                 val intent = Intent()
                 setResult(RESULT_OK, intent)
                 finish()
             }
         }
+    }
+
+    private fun createReminderNotificationAlarm(reminder: ReminderEntity) {
+        val intent = Intent(this, ReminderBroadcastReceiver::class.java)
+        intent.putExtra(NOTIFICATION_TITLE_EXTRA, reminder.title)
+        intent.putExtra(NOTIFICATION_CONTENT_EXTRA, reminder.detail)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, reminder.remindTime, pendingIntent)
     }
 
     private fun initToolbar() {

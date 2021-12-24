@@ -7,9 +7,9 @@ import com.rogoz208.notesv2.domain.repos.RemindersRepo
 
 class EditReminderViewModel(private val remindersRepo: RemindersRepo) : ViewModel(),
     EditReminderContract.ViewModel {
-    private var reminder: ReminderEntity? = null
 
     override val reminderSavedLiveData = MutableLiveData(false)
+    override val reminderEntityLiveData = MutableLiveData<ReminderEntity>()
 
     override fun onReminderSaved(
         reminder: ReminderEntity?,
@@ -19,7 +19,9 @@ class EditReminderViewModel(private val remindersRepo: RemindersRepo) : ViewMode
         position: Int?
     ) {
         if (reminder == null && (title != "" || detail != "")) {
-            remindersRepo.createReminder(ReminderEntity("", title, detail, remindTime))
+            val newReminder = ReminderEntity("", title, detail, remindTime)
+            remindersRepo.createReminder(newReminder)
+            reminderEntityLiveData.postValue(newReminder)
             reminderSavedLiveData.postValue(true)
         } else {
             reminder?.let {
@@ -29,6 +31,7 @@ class EditReminderViewModel(private val remindersRepo: RemindersRepo) : ViewMode
                         it.copy(title = title, detail = detail, remindTime = remindTime),
                         position!!
                     )
+                    reminderEntityLiveData.postValue(it.copy(title = title, detail = detail, remindTime = remindTime))
                     reminderSavedLiveData.postValue(true)
                 } else {
                     remindersRepo.deleteReminder(it.uid)

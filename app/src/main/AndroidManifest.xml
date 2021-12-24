@@ -39,6 +39,11 @@
             android:enabled="true"
             android:exported="true" />
 
+        <receiver
+            android:name=".data.ReminderBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".ui.screens.notes.edit.EditNoteActivity"
             android:exported="false" />
