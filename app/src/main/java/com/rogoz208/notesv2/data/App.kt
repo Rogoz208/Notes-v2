@@ -7,14 +7,19 @@ import androidx.room.Room
 import com.rogoz208.notesv2.data.log.MyAnalytics
 import com.rogoz208.notesv2.data.repos.NoteLocationRepoImpl
 import com.rogoz208.notesv2.data.retrofit.RetrofitRandomActivityRepoImpl
-import com.rogoz208.notesv2.data.room.NoteDao
-import com.rogoz208.notesv2.data.room.NoteRoomDb
-import com.rogoz208.notesv2.data.room.RoomNotesRepoImpl
+import com.rogoz208.notesv2.data.room.notes.NoteDao
+import com.rogoz208.notesv2.data.room.notes.NoteRoomDb
+import com.rogoz208.notesv2.data.room.notes.RoomNotesRepoImpl
+import com.rogoz208.notesv2.data.room.reminders.ReminderDao
+import com.rogoz208.notesv2.data.room.reminders.ReminderRoomDb
+import com.rogoz208.notesv2.data.room.reminders.RoomRemindersRepoImpl
 import com.rogoz208.notesv2.domain.repos.NoteLocationRepo
 import com.rogoz208.notesv2.domain.repos.NotesRepo
 import com.rogoz208.notesv2.domain.repos.RandomActivityRepo
+import com.rogoz208.notesv2.domain.repos.RemindersRepo
 
-private const val DB_PATH = "notes.db"
+private const val NOTE_DB_PATH = "notes.db"
+private const val REMINDER_DB_PATH = "reminders.db"
 private const val SHARED_PREF_NAME = "SHARED_PREF_NAME"
 
 class App : Application() {
@@ -22,12 +27,22 @@ class App : Application() {
         Room.databaseBuilder(
             this,
             NoteRoomDb::class.java,
-            DB_PATH
+            NOTE_DB_PATH
         ).build()
     }
     private val noteDao: NoteDao by lazy { noteDb.noteDao() }
 
+    private val reminderDb: ReminderRoomDb by lazy {
+        Room.databaseBuilder(
+            this,
+            ReminderRoomDb::class.java,
+            REMINDER_DB_PATH
+        ).build()
+    }
+    private val reminderDao: ReminderDao by lazy { reminderDb.reminderDao() }
+
     val notesRepo: NotesRepo by lazy { RoomNotesRepoImpl(noteDao) }
+    val remindersRepo: RemindersRepo by lazy { RoomRemindersRepoImpl(reminderDao) }
     val randomActivityRepo: RandomActivityRepo by lazy { RetrofitRandomActivityRepoImpl() }
     val noteLocationRepo: NoteLocationRepo by lazy { NoteLocationRepoImpl(this) }
     val analytics: MyAnalytics by lazy { MyAnalytics(this) }

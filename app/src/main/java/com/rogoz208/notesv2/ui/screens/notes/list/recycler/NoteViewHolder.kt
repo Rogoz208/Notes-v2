@@ -8,7 +8,7 @@ import com.rogoz208.notesv2.R
 import com.rogoz208.notesv2.databinding.ItemNoteViewHolderBinding
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 
-class NoteViewHolder(parent: ViewGroup, private val clickListener: OnItemClickListener) :
+class NoteViewHolder(parent: ViewGroup, private val clickListener: OnNoteItemClickListener) :
     RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_note_view_holder, parent, false)
     ) {

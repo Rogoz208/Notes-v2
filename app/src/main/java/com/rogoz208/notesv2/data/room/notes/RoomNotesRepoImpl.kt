@@ -1,4 +1,4 @@
-package com.rogoz208.notesv2.data.room
+package com.rogoz208.notesv2.data.room.notes
 
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 import com.rogoz208.notesv2.domain.repos.NotesRepo

@@ -3,7 +3,7 @@ package com.rogoz208.notesv2.ui.screens.notes.list.recycler
 import android.view.View
 import com.rogoz208.notesv2.domain.entities.NoteEntity
 
-interface OnItemClickListener {
+interface OnNoteItemClickListener {
 
     fun onItemClick(item: NoteEntity, position: Int)
 

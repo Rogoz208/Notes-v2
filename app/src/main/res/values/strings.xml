@@ -29,4 +29,5 @@
     <string name="cellular_is_connected">Cellular is connected</string>
     <string name="ethernet_is_connected">Ethernet is connected</string>
     <string name="connected_via_bluetooth">Internet connected via bluetooth</string>
+    <string name="reminder_time_edit_text">reminder_time_edit_text</string>
 </resources>
