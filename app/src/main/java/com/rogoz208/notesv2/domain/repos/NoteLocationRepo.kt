@@ -1,8 +1,8 @@
 package com.rogoz208.notesv2.domain.repos
 
-import com.rogoz208.notesv2.domain.entities.NoteLocation
+import com.rogoz208.notesv2.domain.entities.NoteLocationEntity
 
 interface NoteLocationRepo {
 
-    fun getCurrentLocation(callback: (NoteLocation) -> Unit)
+    fun getCurrentLocation(callback: (NoteLocationEntity) -> Unit)
 }
