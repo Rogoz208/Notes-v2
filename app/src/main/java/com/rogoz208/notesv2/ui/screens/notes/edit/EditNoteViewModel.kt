@@ -14,7 +14,6 @@ class EditNoteViewModel(
     private val noteLocationRepo: NoteLocationRepo,
     private val analytics: MyAnalytics
 ) : ViewModel(), EditNoteContract.ViewModel {
-    private var note: NoteEntity? = null
 
     override val noteSavedLiveData = MutableLiveData(false)
     override val randomActivityLiveData = MutableLiveData<String>()
@@ -23,43 +22,13 @@ class EditNoteViewModel(
     override val showProgressBarLiveData = MutableLiveData(false)
 
     override fun onNoteSaved(note: NoteEntity?, title: String, detail: String, position: Int?) {
-        if (note == null && (title != "" || detail != "")) {
-            showProgressBarLiveData.postValue(true)
-            noteLocationRepo.getCurrentLocation { location ->
-                this.note =
-                    NoteEntity(
-                        "",
-                        title,
-                        detail,
-                        null,
-                        location.latitude,
-                        location.longitude,
-                        location.address
-                    )
-                this.note?.let {
-                    notesRepo.createNote(it)
-                    showProgressBarLiveData.postValue(false)
-                    noteSavedLiveData.postValue(true)
-                    analytics.logEvent("Note \"${it.title}\" is created")
-                }
-            }
+        if (note == null) {
+            createNote(title, detail)
         } else {
-            note?.let {
-                if (title != "" || detail != "") {
-                    notesRepo.updateNote(
-                        it.uid,
-                        it.copy(title = title, detail = detail),
-                        position!!
-                    )
-                    showProgressBarLiveData.postValue(false)
-                    noteSavedLiveData.postValue(true)
-                    analytics.logEvent("Note \"${it.title}\" is saved")
-                } else {
-                    notesRepo.deleteNote(it.uid)
-                    showProgressBarLiveData.postValue(false)
-                    noteSavedLiveData.postValue(true)
-                    analytics.logEvent("Note \"${it.title}\" is deleted")
-                }
+            if (title != "" || detail != "") {
+                updateNote(note, title, detail, position)
+            } else {
+                deleteNote(note)
             }
         }
     }
@@ -76,5 +45,44 @@ class EditNoteViewModel(
 
     override fun onImageUrlChange(imageUrl: String) {
         imageUrlLiveData.postValue(imageUrl)
+    }
+
+    private fun createNote(title: String, detail: String) {
+        if (title != "" || detail != "") {
+            showProgressBarLiveData.postValue(true)
+            noteLocationRepo.getCurrentLocation { location ->
+                val note = NoteEntity(
+                    "",
+                    title,
+                    detail,
+                    null,
+                    location.latitude,
+                    location.longitude,
+                    location.address
+                )
+                notesRepo.createNote(note)
+                showProgressBarLiveData.postValue(false)
+                noteSavedLiveData.postValue(true)
+                analytics.logEvent("Note \"${note.title}\" is created")
+            }
+        }
+    }
+
+    private fun updateNote(note: NoteEntity, title: String, detail: String, position: Int?) {
+        notesRepo.updateNote(
+            note.uid,
+            note.copy(title = title, detail = detail),
+            position!!
+        )
+        showProgressBarLiveData.postValue(false)
+        noteSavedLiveData.postValue(true)
+        analytics.logEvent("Note \"${note.title}\" is saved")
+    }
+
+    private fun deleteNote(note: NoteEntity) {
+        notesRepo.deleteNote(note.uid)
+        showProgressBarLiveData.postValue(false)
+        noteSavedLiveData.postValue(true)
+        analytics.logEvent("Note \"${note.title}\" is deleted")
     }
 }

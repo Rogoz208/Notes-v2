@@ -18,26 +18,50 @@ class EditReminderViewModel(private val remindersRepo: RemindersRepo) : ViewMode
         remindTime: Long,
         position: Int?
     ) {
-        if (reminder == null && (title != "" || detail != "")) {
+        if (reminder == null) {
+            createReminder(title, detail, remindTime)
+        } else {
+            if (title != "" || detail != "") {
+                updateReminder(reminder, title, detail, remindTime, position!!)
+            } else {
+                deleteReminder(reminder)
+            }
+        }
+    }
+
+    private fun createReminder(title: String, detail: String, remindTime: Long) {
+        if (title != "" || detail != "") {
             val newReminder = ReminderEntity("", title, detail, remindTime)
             remindersRepo.createReminder(newReminder)
             reminderEntityLiveData.postValue(newReminder)
             reminderSavedLiveData.postValue(true)
-        } else {
-            reminder?.let {
-                if (title != "" || detail != "") {
-                    remindersRepo.updateReminder(
-                        it.uid,
-                        it.copy(title = title, detail = detail, remindTime = remindTime),
-                        position!!
-                    )
-                    reminderEntityLiveData.postValue(it.copy(title = title, detail = detail, remindTime = remindTime))
-                    reminderSavedLiveData.postValue(true)
-                } else {
-                    remindersRepo.deleteReminder(it.uid)
-                    reminderSavedLiveData.postValue(true)
-                }
-            }
         }
+    }
+
+    private fun updateReminder(
+        reminder: ReminderEntity,
+        title: String,
+        detail: String,
+        remindTime: Long,
+        position: Int
+    ) {
+        remindersRepo.updateReminder(
+            reminder.uid,
+            reminder.copy(title = title, detail = detail, remindTime = remindTime),
+            position
+        )
+        reminderEntityLiveData.postValue(
+            reminder.copy(
+                title = title,
+                detail = detail,
+                remindTime = remindTime
+            )
+        )
+        reminderSavedLiveData.postValue(true)
+    }
+
+    private fun deleteReminder(reminder: ReminderEntity) {
+        remindersRepo.deleteReminder(reminder.uid)
+        reminderSavedLiveData.postValue(true)
     }
 }
